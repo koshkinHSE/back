@@ -9,6 +9,7 @@ import com.twowasik_project.repository.UserRepository;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -17,16 +18,11 @@ import java.util.*;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
+
+    private User user;
 
     @Override
-    public User saveUser(User user, String email, String password, String name) {
-        user.setEmail(email);
-        user.setPassword(password);
-        user.setUsername(name);
-        List<Role> curRole = new ArrayList<>();
-        curRole.add(roleRepository.findByName("USER"));
-        user.setRoles(curRole);
+    public User saveUser(User user) {
         return userRepository.save(user);
     }
 

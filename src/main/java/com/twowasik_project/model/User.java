@@ -5,6 +5,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -12,6 +13,9 @@ import java.util.List;
 @Table(name = "users")
 @Data
 public class User {
+
+    private static int newId = 0;
+
     @Id
     @Column(name = "user_id")
     private int id;
@@ -42,4 +46,19 @@ public class User {
             joinColumns = {@JoinColumn(name = "id_user", referencedColumnName = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "id_role", referencedColumnName = "role_id")})
     private List<Role> roles;
+
+    public User() {
+
+    }
+
+    public User(String email, String password, String username, List<Role> roles) {
+        this.email = email;
+        this.password = password;
+        this.username = username;
+        long createTime = System.currentTimeMillis();
+        this.created = new Date(createTime);
+        this.updated = new Date(createTime);
+        this.roles = roles;
+        this.status = Status.ACTIVE;
+    }
 }
