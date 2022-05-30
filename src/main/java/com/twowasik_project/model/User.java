@@ -2,6 +2,7 @@ package com.twowasik_project.model;
 
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.util.Date;
