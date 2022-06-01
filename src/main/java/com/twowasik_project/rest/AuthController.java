@@ -1,10 +1,12 @@
 package com.twowasik_project.rest;
 
 import com.twowasik_project.dto.AuthenticationRequestDto;
+import com.twowasik_project.dto.JwtDto;
+import com.twowasik_project.dto.JwtRefreshDto;
 import com.twowasik_project.dto.RegistrationRequestDto;
-import com.twowasik_project.model.Role;
+
+import com.twowasik_project.jwt.JWTProvider;
 import com.twowasik_project.model.User;
-import com.twowasik_project.repository.RoleRepository;
 import com.twowasik_project.repository.UserRepository;
 import com.twowasik_project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/auth/")
@@ -25,10 +27,13 @@ public class AuthController {
     private UserRepository userRepository;
 
     @Autowired
-    private RoleRepository roleRepository;
+    private UserService userService;
 
     @Autowired
-    private UserService userService;
+    private JWTProvider jwtProvider;
+
+    @Autowired
+    private JwtDto jwtDto;
 
     @PostMapping("login")
     public ResponseEntity login(@RequestBody AuthenticationRequestDto authenticationRequestDto) {
@@ -40,7 +45,9 @@ public class AuthController {
             return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.ok(userService.makeJWToken(user));
+        jwtDto.setAccessToken(jwtProvider.generateAccessToken(user));
+        jwtDto.setRefreshToken(jwtProvider.generateRefreshToken(user));
+        return ResponseEntity.ok(jwtDto);
     }
 
     @PostMapping("register")
@@ -55,10 +62,22 @@ public class AuthController {
             return ResponseEntity.notFound().build();
         }
 
-        List<Role> defaultRole = new ArrayList<>();
-        defaultRole.add(roleRepository.findByName("USER"));
-        user = userService.saveUser(new User(email, password, name, defaultRole));
+        user = userService.saveUser(new User(email, password, name));
 
-        return ResponseEntity.ok(userService.makeJWToken(user));
+        jwtDto.setAccessToken(jwtProvider.generateAccessToken(user));
+        jwtDto.setRefreshToken(jwtProvider.generateRefreshToken(user));
+        return ResponseEntity.ok(jwtDto);
+    }
+
+    @PostMapping("token")
+    public ResponseEntity register(@RequestBody JwtRefreshDto jwtRefreshDto) {
+        if (!jwtProvider.validateRefreshToken(jwtRefreshDto.getRefreshToken())) {
+            return ResponseEntity.notFound().build();
+        }
+
+        User user = userRepository.findByUsername(jwtProvider.getRefreshClaims(jwtRefreshDto.getRefreshToken()).getSubject());
+        jwtDto.setAccessToken(jwtProvider.generateAccessToken(user));
+        jwtDto.setRefreshToken(jwtProvider.generateRefreshToken(user));
+        return ResponseEntity.ok(jwtDto);
     }
 }

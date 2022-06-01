@@ -42,24 +42,17 @@ public class User {
     @Column(name = "status")
     private Status status;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_roles",
-            joinColumns = {@JoinColumn(name = "id_user", referencedColumnName = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "id_role", referencedColumnName = "role_id")})
-    private List<Role> roles;
-
     public User() {
 
     }
 
-    public User(String email, String password, String username, List<Role> roles) {
+    public User(String email, String password, String username) {
         this.email = email;
         this.password = password;
         this.username = username;
         long createTime = System.currentTimeMillis();
         this.created = new Date(createTime);
         this.updated = new Date(createTime);
-        this.roles = roles;
         this.status = Status.ACTIVE;
     }
 }
