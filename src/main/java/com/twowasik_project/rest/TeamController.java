@@ -37,7 +37,7 @@ public class TeamController {
         }
 
         User admin = userRepository.findByUsername(jwtProvider.getAccessClaims(request.getHeader("Authorization")).getSubject());
-        String members = admin.getUsername() + " " + CreateTeamDto.getTeam_participants();
+        String members = admin.getEmail() + " " + CreateTeamDto.getTeam_participants();
 
         teamService.saveTeam(new Team(CreateTeamDto.getName(), members, new ArrayList<>(), admin));
         return ResponseEntity.ok(true);
