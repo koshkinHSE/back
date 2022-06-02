@@ -34,7 +34,6 @@ public class AuthController {
     @Autowired
     private JwtDto jwtDto;
 
-    @ResponseStatus(code = HttpStatus.OK, reason = "Unauthorized")
     @PostMapping("login")
     public ResponseEntity login(@RequestBody AuthenticationRequestDto authenticationRequestDto) {
         String email = authenticationRequestDto.getEmail();
@@ -50,7 +49,6 @@ public class AuthController {
         return ResponseEntity.ok(jwtDto);
     }
 
-    @ResponseStatus(code = HttpStatus.OK, reason = "Unauthorized")
     @PostMapping("register")
     public ResponseEntity register(@RequestBody RegistrationRequestDto registrationRequestDto) {
         String email = registrationRequestDto.getEmail();
