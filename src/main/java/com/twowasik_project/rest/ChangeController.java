@@ -29,7 +29,7 @@ public class ChangeController {
     public ResponseEntity changeUserData(HttpServletRequest request, @RequestBody ChangeUserDataDto changeUserDataDto) {
 
         if (!jwtProvider.validateAccessToken(request.getHeader("Authorization"))) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.badRequest().body("Unauthorized");
         }
 
         User user = userRepository.findByUsername(jwtProvider.getAccessClaims(request.getHeader("Authorization")).getSubject());
