@@ -3,15 +3,18 @@ package com.twowasik_project.rest;
 import com.twowasik_project.dto.AuthenticationRequestDto;
 import com.twowasik_project.dto.ChangeUserDataDto;
 import com.twowasik_project.dto.JwtDto;
+import com.twowasik_project.exceptions.InvalidTokenExceptions;
 import com.twowasik_project.jwt.JWTProvider;
 import com.twowasik_project.model.User;
 import com.twowasik_project.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
+@CrossOrigin(origins = "http://localhost:3000/", maxAge = 3600)
 @RestController
 @RequestMapping(value = "/change/")
 public class ChangeController {
@@ -29,7 +32,7 @@ public class ChangeController {
     public ResponseEntity changeUserData(HttpServletRequest request, @RequestBody ChangeUserDataDto changeUserDataDto) {
 
         if (!jwtProvider.validateAccessToken(request.getHeader("Authorization"))) {
-            return ResponseEntity.badRequest().body("Unauthorized");
+            throw new InvalidTokenExceptions();
         }
 
         User user = userRepository.findByUsername(jwtProvider.getAccessClaims(request.getHeader("Authorization")).getSubject());
@@ -41,8 +44,6 @@ public class ChangeController {
 
         if (!newAva.equals("false")) { userRepository.updateAvatar(newAva, user.getId()); }
 
-        jwtDto.setAccessToken("false");
-        jwtDto.setRefreshToken("false");
         if (!newUsername.equals("false")) {
             userRepository.updateUsername(newUsername, user.getId());
             jwtDto.setAccessToken(jwtProvider.generateAccessToken(user));
@@ -50,9 +51,8 @@ public class ChangeController {
         }
 
         if (!oldPassword.equals("false")) {
-            if (!oldPassword.equals(user.getPassword())) { return ResponseEntity.notFound().build();  }
+            if (!oldPassword.equals(user.getPassword())) { return ResponseEntity.ok(false);  }
             userRepository.updatePassword(newPassword, user.getId());
-            changeUserDataDto.setNewPassword("true");
         }
 
         return ResponseEntity.ok(jwtDto);

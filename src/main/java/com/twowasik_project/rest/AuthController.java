@@ -10,15 +10,14 @@ import com.twowasik_project.model.User;
 import com.twowasik_project.repository.UserRepository;
 import com.twowasik_project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@CrossOrigin(origins = "http://localhost:3000/", maxAge = 3600)
 @RestController
 @RequestMapping(value = "/auth/")
 public class AuthController {
@@ -35,6 +34,7 @@ public class AuthController {
     @Autowired
     private JwtDto jwtDto;
 
+    @ResponseStatus(code = HttpStatus.OK, reason = "Unauthorized")
     @PostMapping("login")
     public ResponseEntity login(@RequestBody AuthenticationRequestDto authenticationRequestDto) {
         String email = authenticationRequestDto.getEmail();
@@ -50,6 +50,7 @@ public class AuthController {
         return ResponseEntity.ok(jwtDto);
     }
 
+    @ResponseStatus(code = HttpStatus.OK, reason = "Unauthorized")
     @PostMapping("register")
     public ResponseEntity register(@RequestBody RegistrationRequestDto registrationRequestDto) {
         String email = registrationRequestDto.getEmail();
@@ -59,7 +60,7 @@ public class AuthController {
         User user = userRepository.findByEmail(email);
 
         if (user != null) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.ok(false);
         }
 
         user = userService.saveUser(new User(email, password, name));
