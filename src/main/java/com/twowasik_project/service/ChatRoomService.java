@@ -14,7 +14,7 @@ public class ChatRoomService {
 
     public Optional<Integer> getChatId(int chat_id, boolean createIfNotExist) {
 
-        return chatRoomRepository.findByChatId(chat_id).map(Chat::getId).or(() -> {
+        return chatRoomRepository.findById(chat_id).map(Chat::getId).or(() -> {
                     if(!createIfNotExist) {
                         return  Optional.empty();
                     }

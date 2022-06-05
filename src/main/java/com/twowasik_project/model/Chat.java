@@ -22,8 +22,8 @@ public class Chat {
     private String participants;
 
     public Chat() {
-
     }
+
     public Chat(String name, String participants) {
         this.name = name;
         this.participants = participants;

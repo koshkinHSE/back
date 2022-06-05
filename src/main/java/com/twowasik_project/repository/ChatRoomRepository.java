@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 public interface ChatRoomRepository extends JpaRepository<Chat, Integer> {
-    Optional<Chat> findByChatId(int chat_id);
+    Optional<Chat> findById(int chat_id);
 }

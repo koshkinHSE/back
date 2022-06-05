@@ -24,7 +24,7 @@ public class ChatMessageService {
 //    }
 
     public List<Message> findChatMessages(int chat_id) {
-        List<Message> messages = (repository.findByChatId(chat_id));
+        List<Message> messages = (repository.getMessages(chat_id));
         return messages;
     }
 

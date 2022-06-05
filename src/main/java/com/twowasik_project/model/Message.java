@@ -16,9 +16,9 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int message_id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    //@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "chat_id")
-    private Chat chat_id;
+    private int chat_id;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -46,7 +46,7 @@ public class Message {
     public Message() {
     }
 
-    public Message(Chat chat, User user, Date time, String text, Media media) {
+    public Message(int chat, User user, Date time, String text, Media media) {
         this.chat_id = chat;
         this.user = user;
         this.time = time;
