@@ -47,9 +47,7 @@ public class ChannelController {
         }
 
         int teamId = createChannelDto.getTeamId();
-
         channelService.saveChannel(new Channel(createChannelDto.getName(), createChannelDto.getDescription(), teamRepository.findById(createChannelDto.getTeamId())));
-
         return ResponseEntity.ok(true);
     }
 
