@@ -2,6 +2,8 @@ package com.twowasik_project.service;
 
 import com.twowasik_project.model.User;
 
+import java.util.List;
+
 public interface UserService {
     User saveUser(User user);
 
@@ -12,4 +14,6 @@ public interface UserService {
     String getUsersId(String participants, String admin);
 
     void addTeam(String teamId, String usersId);
+
+    List<Integer> getTeams(String name);
 }

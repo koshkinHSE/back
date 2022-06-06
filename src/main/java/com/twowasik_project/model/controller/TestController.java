@@ -1,4 +1,4 @@
-package com.twowasik_project.controller;
+package com.twowasik_project.model.controller;
 
 import com.twowasik_project.jwt.JWTProvider;
 import com.twowasik_project.model.User;

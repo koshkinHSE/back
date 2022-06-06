@@ -6,6 +6,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service @RequiredArgsConstructor @Slf4j
 public class UserServiceImpl implements UserService {
 
@@ -49,8 +52,17 @@ public class UserServiceImpl implements UserService {
         for (String userId: usersId.split(" ")) {
             id = Integer.parseInt(userId);
             teams = userRepository.findById(id).getTeams();
-            if (teams.equals("null")) { teams = ""; }
-            userRepository.updateTeams(teams + " " + teamId, id);
+            if (teams == null) { teams = ""; }
+            userRepository.updateTeams(teams + teamId + " ", id);
         }
+    }
+
+    @Override
+    public List<Integer> getTeams(String name) {
+        List<Integer> teamsId = new ArrayList<>();
+        for (String id: userRepository.findByUsername(name).getTeams().split(" ")) {
+            teamsId.add(Integer.parseInt(id));
+        }
+        return teamsId;
     }
 }

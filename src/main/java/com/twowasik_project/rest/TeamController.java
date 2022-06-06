@@ -7,8 +7,6 @@ import com.twowasik_project.exceptions.InvalidTokenExceptions;
 import com.twowasik_project.jwt.JWTProvider;
 import com.twowasik_project.model.Team;
 import com.twowasik_project.model.User;
-import com.twowasik_project.repository.TeamRepository;
-import com.twowasik_project.repository.UserRepository;
 import com.twowasik_project.service.TeamService;
 import com.twowasik_project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:3000/", maxAge = 3600)
 @RestController
@@ -63,13 +59,16 @@ public class TeamController {
         return ResponseEntity.ok(teamIdDto);
     }
 
-//    @GetMapping("showTeams")
-//    public ResponseEntity showTeams(HttpServletRequest request) {
-//
-//        if (!jwtProvider.validateAccessToken(request.getHeader("Authorization"))) {
-//            throw new InvalidTokenExceptions();
-//        }
-//
-//        return ResponseEntity.ok(showTeamDto);
-//    }
+    @GetMapping("showTeams")
+    public ResponseEntity showTeams(HttpServletRequest request) {
+
+        if (!jwtProvider.validateAccessToken(request.getHeader("Authorization"))) {
+            throw new InvalidTokenExceptions();
+        }
+
+        showTeamDto.setId(userService.getTeams(jwtProvider.getAccessClaims(request.getHeader("Authorization")).getSubject()));
+        showTeamDto.setName(teamService.showTeams(showTeamDto.getId()));
+
+        return ResponseEntity.ok(showTeamDto);
+    }
 }
