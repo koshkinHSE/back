@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public String getUsersId(String participants, String admin) {
         StringBuilder usersId = new StringBuilder(admin + " ");
-        if (participants != null) {
+        if (!participants.equals("")) {
             User user;
             for (String email : participants.split(" ")) {
                 user = findByEmail(email);

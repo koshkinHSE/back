@@ -49,6 +49,7 @@ public class TeamController {
         String participantsId = userService.getUsersId(createTeamDto.getTeam_participants(), Integer.toString(admin.getId()));
 
         if (participantsId.equals("")) {
+            System.out.println(participantsId);
             return ResponseEntity.ok(false);
         }
 
