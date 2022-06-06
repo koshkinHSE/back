@@ -27,6 +27,7 @@ public class TeamServiceImpl implements TeamService{
     @Override
     public List<String> showTeams(List<Integer> teamsId) {
         List<String> names = new ArrayList<>();
+        if (teamsId.size() == 0) { return names; }
         for (int id: teamsId) {
             names.add(getNameById(id));
         }

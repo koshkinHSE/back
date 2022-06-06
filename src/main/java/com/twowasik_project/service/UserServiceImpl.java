@@ -60,7 +60,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<Integer> getTeams(String name) {
         List<Integer> teamsId = new ArrayList<>();
-        for (String id: userRepository.findByUsername(name).getTeams().split(" ")) {
+        String teams = userRepository.findByUsername(name).getTeams();
+        if (teams == null) { return teamsId; }
+        for (String id: teams.split(" ")) {
             teamsId.add(Integer.parseInt(id));
         }
         return teamsId;
