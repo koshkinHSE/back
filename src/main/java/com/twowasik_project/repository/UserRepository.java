@@ -1,11 +1,14 @@
 package com.twowasik_project.repository;
 
+import com.twowasik_project.model.Message;
 import com.twowasik_project.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
     User findByEmail(String email);
@@ -26,4 +29,10 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Modifying
     @Query(value = "UPDATE users SET avatar = :avatar WHERE user_id = :user_id", nativeQuery = true)
     void updateAvatar(@Param("avatar") String avatar, @Param("user_id") int userId);
+
+    @Query(value = "select * from users where users.user_name like concat('%',:username,'%')", nativeQuery = true)
+    List<User> findUsers(@Param("username") String username);
+
+    //List<User> findByUsernameContaining(String username);
+    //List<User> findByUsernameLike(String username);
 }
