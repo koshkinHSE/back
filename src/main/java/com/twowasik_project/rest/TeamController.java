@@ -2,6 +2,7 @@ package com.twowasik_project.rest;
 
 import com.twowasik_project.dto.CreateTeamDto;
 import com.twowasik_project.dto.ShowTeamDto;
+import com.twowasik_project.dto.TeamIdDto;
 import com.twowasik_project.exceptions.InvalidTokenExceptions;
 import com.twowasik_project.jwt.JWTProvider;
 import com.twowasik_project.model.Team;
@@ -9,6 +10,7 @@ import com.twowasik_project.model.User;
 import com.twowasik_project.repository.TeamRepository;
 import com.twowasik_project.repository.UserRepository;
 import com.twowasik_project.service.TeamService;
+import com.twowasik_project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,51 +25,51 @@ import java.util.List;
 public class TeamController {
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
     private TeamService teamService;
 
     @Autowired
-    private TeamRepository teamRepository;
+    private UserService userService;
 
     @Autowired
     private JWTProvider jwtProvider;
 
     @Autowired
+    private TeamIdDto teamIdDto;
+
+    @Autowired
     private ShowTeamDto showTeamDto;
 
+    @Autowired
+    private User admin;
+
     @PostMapping("create")
-    public ResponseEntity createTeam(HttpServletRequest request, @RequestBody CreateTeamDto CreateTeamDto) {
+    public ResponseEntity createTeam(HttpServletRequest request, @RequestBody CreateTeamDto createTeamDto) {
 
         if (!jwtProvider.validateAccessToken(request.getHeader("Authorization"))) {
             throw new InvalidTokenExceptions();
         }
 
-        User admin = userRepository.findByUsername(jwtProvider.getAccessClaims(request.getHeader("Authorization")).getSubject());
-        String members = admin.getEmail() + " " + CreateTeamDto.getTeam_participants();
+        admin = userService.findByUsername(jwtProvider.getAccessClaims(request.getHeader("Authorization")).getSubject());
+        String participantsId = userService.getUsersId(createTeamDto.getTeam_participants(), Integer.toString(admin.getId()));
 
-        teamService.saveTeam(new Team(CreateTeamDto.getName(), members, new ArrayList<>(), admin));
-        return ResponseEntity.ok(true);
-    }
-
-    @GetMapping("showTeams")
-    public ResponseEntity showTeams(HttpServletRequest request) {
-
-        if (!jwtProvider.validateAccessToken(request.getHeader("Authorization"))) {
-            throw new InvalidTokenExceptions();
+        if (participantsId.equals("")) {
+            return ResponseEntity.ok(false);
         }
 
-        List<Integer> id = new ArrayList<>();
-        List<String> name = new ArrayList<>();
+        teamIdDto.setId(teamService.saveTeam(new Team(createTeamDto.getName(), participantsId, Integer.toString(admin.getId()))));
 
-        for(Team team: teamRepository.getAll()) {
-            id.add(team.getId());
-            name.add(team.getName());
-        }
+        userService.addTeam(Integer.toString(teamIdDto.getId()), participantsId);
 
-        showTeamDto.setId(id);
-        showTeamDto.setName(name);
-        return ResponseEntity.ok(showTeamDto);
+        return ResponseEntity.ok(teamIdDto);
     }
+
+//    @GetMapping("showTeams")
+//    public ResponseEntity showTeams(HttpServletRequest request) {
+//
+//        if (!jwtProvider.validateAccessToken(request.getHeader("Authorization"))) {
+//            throw new InvalidTokenExceptions();
+//        }
+//
+//        return ResponseEntity.ok(showTeamDto);
+//    }
 }

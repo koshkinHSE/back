@@ -7,23 +7,15 @@ import com.twowasik_project.dto.RegistrationRequestDto;
 
 import com.twowasik_project.jwt.JWTProvider;
 import com.twowasik_project.model.User;
-import com.twowasik_project.repository.UserRepository;
 import com.twowasik_project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @CrossOrigin(origins = "http://localhost:3000/", maxAge = 3600)
 @RestController
 @RequestMapping(value = "/auth/")
 public class AuthController {
-
-    @Autowired
-    private UserRepository userRepository;
 
     @Autowired
     private UserService userService;
@@ -34,11 +26,13 @@ public class AuthController {
     @Autowired
     private JwtDto jwtDto;
 
+    @Autowired User user;
+
     @PostMapping("login")
     public ResponseEntity login(@RequestBody AuthenticationRequestDto authenticationRequestDto) {
         String email = authenticationRequestDto.getEmail();
         String password = authenticationRequestDto.getPassword();
-        User user = userRepository.findByEmail(email);
+        user = userService.findByEmail(email);
 
         if (user == null || !password.equals(user.getPassword())) {
             return ResponseEntity.notFound().build();
@@ -55,9 +49,7 @@ public class AuthController {
         String password = registrationRequestDto.getPassword();
         String name = registrationRequestDto.getName();
 
-        User user = userRepository.findByEmail(email);
-
-        if (user != null) {
+        if (userService.findByEmail(email) != null) {
             return ResponseEntity.ok(false);
         }
 
@@ -74,7 +66,7 @@ public class AuthController {
             return ResponseEntity.notFound().build();
         }
 
-        User user = userRepository.findByUsername(jwtProvider.getRefreshClaims(jwtRefreshDto.getRefreshToken()).getSubject());
+        user = userService.findByUsername(jwtProvider.getRefreshClaims(jwtRefreshDto.getRefreshToken()).getSubject());
         jwtDto.setAccessToken(jwtProvider.generateAccessToken(user));
         jwtDto.setRefreshToken(jwtProvider.generateRefreshToken(user));
         return ResponseEntity.ok(jwtDto);

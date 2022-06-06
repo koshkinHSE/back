@@ -12,6 +12,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     User findByUsername(String username);
 
+    User findById(int id);
+
     @Transactional
     @Modifying
     @Query(value = "update users set password = :pass where user_id = :userId", nativeQuery = true)
@@ -26,4 +28,9 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Modifying
     @Query(value = "UPDATE users SET avatar = :avatar WHERE user_id = :user_id", nativeQuery = true)
     void updateAvatar(@Param("avatar") String avatar, @Param("user_id") int userId);
+
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE users SET teams = :teams WHERE user_id = :user_id", nativeQuery = true)
+    void updateTeams(@Param("teams") String teams, @Param("user_id") int userId);
 }

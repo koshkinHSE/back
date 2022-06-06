@@ -3,8 +3,6 @@ package com.twowasik_project.model;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.List;
 
 @Entity
 @Table(name = "team")
@@ -23,18 +21,16 @@ public class Team {
     @Column(name = "team_participants")
     private String participants;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "admin_id")
-    private List<User> admins;
+    @Column(name = "admins")
+    private String admins;
 
     public Team() {
 
     }
 
-    public Team(String name, String participants, List<User> admins, User admin) {
+    public Team(String name, String participants, String admins) {
         this.name = name;
         this.participants = participants;
         this.admins = admins;
-        this.admins.add(admin);
     }
 }

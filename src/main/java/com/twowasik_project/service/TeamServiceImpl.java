@@ -2,20 +2,17 @@ package com.twowasik_project.service;
 
 import com.twowasik_project.model.Team;
 import com.twowasik_project.repository.TeamRepository;
-import com.twowasik_project.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-@Service
-@RequiredArgsConstructor
-@Slf4j
+@Service @RequiredArgsConstructor @Slf4j
 public class TeamServiceImpl implements TeamService{
-    private final UserRepository userRepository;
-    private final TeamRepository TeamRepository;
+
+    private final TeamRepository teamRepository;
 
     @Override
-    public Team saveTeam(Team team) {
-        return TeamRepository.save(team);
+    public int saveTeam(Team team) {
+        return teamRepository.save(team).getId();
     }
 }

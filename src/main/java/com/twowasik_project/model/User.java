@@ -5,13 +5,12 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @Table(name = "users")
 @Data
+@Component
 public class User {
 
     private static int newId = 0;
@@ -41,6 +40,9 @@ public class User {
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private Status status;
+
+    @Column(name = "teams")
+    private String teams;
 
     public User() {
 
