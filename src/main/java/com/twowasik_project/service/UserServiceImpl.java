@@ -31,15 +31,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String getUsersId(String participants, String admin) {
-        StringBuilder usersId = new StringBuilder(admin);
-        if (!participants.equals("")) {
+        StringBuilder usersId = new StringBuilder(admin + " ");
+        if (participants != null) {
             User user;
             for (String email : participants.split(" ")) {
                 user = findByEmail(email);
                 if (user == null) {
                     return "";
                 }
-                usersId.append(" " + user.getId());
+                usersId.append(user.getId() + " ");
             }
         }
         return usersId.toString();
