@@ -2,6 +2,7 @@ package com.twowasik_project.rest;
 
 import com.twowasik_project.dto.CreateChatDto;
 import com.twowasik_project.dto.CreateTeamDto;
+import com.twowasik_project.exceptions.InvalidTokenExceptions;
 import com.twowasik_project.jwt.JWTProvider;
 import com.twowasik_project.model.Chat;
 import com.twowasik_project.model.Message;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/chat/")
@@ -44,4 +46,25 @@ public class ChatController {
         return ResponseEntity.ok(true);
     }
 
+//    @PostMapping("showChannels")
+//    public ResponseEntity createChannel(HttpServletRequest request, @RequestBody ShowChannelDto showChannelDto) {
+//
+//        if (!jwtProvider.validateAccessToken(request.getHeader("Authorization"))) {
+//            throw new InvalidTokenExceptions();
+//        }
+//
+//        List<Integer> id = new ArrayList<>();
+//        List<String> name = new ArrayList<>();
+//        List<String> description = new ArrayList<>();
+//
+//        for(Chat channel: chatRepository.getAll(showChannelDto.getTeam_id())) {
+//            id.add(channel.getId());
+//            name.add(channel.getName());
+//            description.add(channel.getDescription());
+//        }
+//        showChannel.setId(id);
+//        showChannel.setName(name);
+//        showChannel.setDescription(description);
+//        return ResponseEntity.ok(showChannel);
+//    }
 }

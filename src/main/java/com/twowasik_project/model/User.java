@@ -44,6 +44,9 @@ public class User {
     @Column(name = "teams")
     private String teams;
 
+    @Column(name = "chats")
+    private String chats;
+
     public User() {
 
     }
