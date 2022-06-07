@@ -16,13 +16,11 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int message_id;
 
-    //@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "chat_id")
+    @JoinColumn(name = "chat_id", referencedColumnName = "chat_id")
     private int chat_id;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
+    private int userId;
 
     @Column(name = "time")
     private Date time;
@@ -30,9 +28,8 @@ public class Message {
     @Column(name = "text")
     private String text;
 
-    @OneToOne
     @JoinColumn(name = "media_id", referencedColumnName = "media_id")
-    private Media media;
+    private int media;
 
     @Column(name = "status")
     private boolean status;
@@ -46,9 +43,9 @@ public class Message {
     public Message() {
     }
 
-    public Message(int chat, User user, Date time, String text, Media media) {
+    public Message(int chat, int user, Date time, String text, int media) {
         this.chat_id = chat;
-        this.user = user;
+        this.userId = user;
         this.time = time;
         this.text = text;
         this.status = false;

@@ -21,6 +21,9 @@ public class Chat {
     @Column(name = "chat_participants")
     private String participants;
 
+    @JoinColumn(name = "team_id", referencedColumnName = "team_id")
+    private int teamId;
+
     public Chat() {
     }
 
