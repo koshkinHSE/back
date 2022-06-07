@@ -29,7 +29,7 @@ public class Message {
     private String text;
 
     @JoinColumn(name = "media_id", referencedColumnName = "media_id")
-    private int media;
+    private int media_id;
 
     @Column(name = "status")
     private boolean status;
@@ -41,15 +41,5 @@ public class Message {
     private boolean isFixed;
 
     public Message() {
-    }
-
-    public Message(int chat, int user, Date time, String text, int media) {
-        this.chat_id = chat;
-        this.userId = user;
-        this.time = time;
-        this.text = text;
-        this.status = false;
-        this.media = media;
-        this.isFixed = false;
     }
 }
