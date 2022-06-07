@@ -24,6 +24,9 @@ public class Chat {
     @JoinColumn(name = "team_id", referencedColumnName = "team_id")
     private int teamId;
 
+    @Column(name = "chat_type")
+    private String chatType;
+
     public Chat() {
     }
 
