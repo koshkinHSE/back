@@ -19,6 +19,7 @@
         <setting name="provider-name" value="Hibernate" />
         <datasource-mapping>
           <factory-entry name="entityManagerFactory" value="4d850d91-cc40-4c5d-ba25-51d7e270acc1" />
+          <factory-entry name="twowasik" />
         </datasource-mapping>
         <naming-strategy-map />
       </configuration>
