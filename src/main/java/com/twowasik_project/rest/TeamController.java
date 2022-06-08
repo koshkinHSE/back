@@ -1,5 +1,6 @@
 package com.twowasik_project.rest;
 
+import com.twowasik_project.dto.AddPersonDto;
 import com.twowasik_project.dto.CreateTeamDto;
 import com.twowasik_project.dto.ShowDto;
 import com.twowasik_project.dto.TeamIdDto;
@@ -71,5 +72,29 @@ public class TeamController {
         showDto.setName(teamService.showTeams(showDto.getId()));
 
         return ResponseEntity.ok(showDto);
+    }
+
+    @PatchMapping("addPerson")
+    public ResponseEntity addPerson(HttpServletRequest request, @RequestBody AddPersonDto addPersonDto) {
+
+        if (!jwtProvider.validateAccessToken(request.getHeader("Authorization"))) {
+            throw new InvalidTokenExceptions();
+        }
+
+
+
+        admin = userService.findByUsername(jwtProvider.getAccessClaims(request.getHeader("Authorization")).getSubject());
+        String participantsId = userService.getUsersId(addPersonDto.getParticipants(), admin.getId());
+
+        if (participantsId.equals("")) {
+            System.out.println(participantsId);
+            return ResponseEntity.notFound().build();
+        }
+
+        System.out.println(participantsId);
+        userService.addTeam(Integer.toString(addPersonDto.getTeam_id()), participantsId);
+        teamService.addPerson(addPersonDto.getTeam_id(), participantsId);
+
+        return ResponseEntity.ok().build();
     }
 }

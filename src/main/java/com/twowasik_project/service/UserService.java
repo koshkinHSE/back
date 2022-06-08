@@ -13,6 +13,8 @@ public interface UserService {
 
     String getUsersId(String participants, String admin);
 
+    String getUsersId(String participants, int id);
+
     void addTeam(String teamId, String usersId);
 
     List<Integer> getTeams(String name);

@@ -11,4 +11,6 @@ public interface TeamService {
     String getNameById(int id);
 
     List<String> showTeams(List<Integer> id);
+
+    void addPerson(int teamId, String participantsId);
 }

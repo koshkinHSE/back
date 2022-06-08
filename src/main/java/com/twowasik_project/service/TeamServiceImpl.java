@@ -34,4 +34,8 @@ public class TeamServiceImpl implements TeamService {
         return names;
     }
 
+    @Override
+    public void addPerson(int teamId, String participantsId) {
+        teamRepository.updateParticipants(teamRepository.findById(teamId).getParticipants() + participantsId, teamId);
+    }
 }

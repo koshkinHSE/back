@@ -36,11 +36,25 @@ public class UserServiceImpl implements UserService {
             User user;
             for (String email : participants.split(" ")) {
                 user = findByEmail(email);
-                if (user == null) {
+                if (user == null || user.getId() == Integer.parseInt(admin)) {
                     return "";
                 }
                 usersId.append(user.getId() + " ");
             }
+        }
+        return usersId.toString();
+    }
+
+    @Override
+    public String getUsersId(String participants, int id) {
+        StringBuilder usersId = new StringBuilder();
+        User user;
+        for (String email : participants.split(" ")) {
+            user = findByEmail(email);
+            if (user == null || user.getId() == id) {
+                return "";
+            }
+            usersId.append(user.getId() + " ");
         }
         return usersId.toString();
     }
