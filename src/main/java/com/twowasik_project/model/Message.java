@@ -28,8 +28,8 @@ public class Message {
     @Column(name = "text")
     private String text;
 
-    @JoinColumn(name = "media_id", referencedColumnName = "media_id")
-    private int media_id;
+//    @JoinColumn(name = "media_id", referencedColumnName = "media_id")
+//    private int media_id;
 
     @Column(name = "status")
     private boolean status;
@@ -37,8 +37,8 @@ public class Message {
     @Column(name = "who_saw")
     private String who_saw;
 
-    @Column(name = "isFixed")
-    private boolean isFixed;
+//    @Column(name = "isFixed")
+//    private boolean isFixed;
 
     public Message() {
     }

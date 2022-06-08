@@ -69,9 +69,10 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-
+@CrossOrigin(origins = "http://localhost:3000/", maxAge = 3600)
 @Controller
 public class MessageController {
 
@@ -82,7 +83,7 @@ public class MessageController {
     @MessageMapping("/chat")
     public void processMessage(@Payload Message chatMessage) {
         Message saved = chatMessageService.save(chatMessage);
-        messagingTemplate.convertAndSend("/messages", chatMessage);
+        messagingTemplate.convertAndSendToUser(chatMessage.getChat_id() + "","queue/messages", chatMessage);
     }
 
 //    @GetMapping("/messages/{chat_id}/count")
@@ -96,8 +97,8 @@ public class MessageController {
         return ResponseEntity.ok(chatMessageService.findChatMessages(chat_id));
     }
 
-    @GetMapping("/messages/{id}")
-    public ResponseEntity<?> findMessage ( @PathVariable int id) {
-        return ResponseEntity.ok(chatMessageService.findById(id));
-    }
+//    @GetMapping("/messages/{id}")
+//    public ResponseEntity<?> findMessage ( @PathVariable int id) {
+//        return ResponseEntity.ok(chatMessageService.findById(id));
+//    }
 }
