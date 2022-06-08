@@ -20,7 +20,7 @@ public class Message {
     private int chat_id;
 
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
-    private int userId;
+    private int user_id;
 
     @Column(name = "time")
     private Date time;
@@ -40,6 +40,20 @@ public class Message {
     @Column(name = "isFixed")
     private boolean isFixed;
 
+    @Column(name = "ref")
+    private int ref;
+
     public Message() {
+    }
+
+    public Message(int chat, int user, Date time, String text, int media, int ref) {
+        this.chat_id = chat;
+        this.user_id = user;
+        this.time = time;
+        this.text = text;
+        this.status = false;
+        this.media_id = media;
+        this.isFixed = false;
+        this.ref = ref;
     }
 }
