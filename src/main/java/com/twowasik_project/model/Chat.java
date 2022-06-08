@@ -34,4 +34,10 @@ public class Chat {
         this.name = name;
         this.participants = participants;
     }
+
+    public Chat(String name, int teamId) {
+        this.name = name;
+        this.teamId = teamId;
+        this.chatType = "Channel";
+    }
 }
