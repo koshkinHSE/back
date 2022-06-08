@@ -82,7 +82,7 @@ public class MessageController {
 
     @MessageMapping("/chat")
     public void processMessage(@Payload Message chatMessage) {
-        Message saved = chatMessageService.save(chatMessage);
+        Message saved = chatMessageService.save(chatMessage, -1);
         messagingTemplate.convertAndSendToUser(chatMessage.getChat_id() + "","queue/messages", chatMessage);
     }
 
