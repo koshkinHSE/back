@@ -13,7 +13,10 @@ public class ChatMessageService {
     @Autowired private ChatMessageRepository repository;
     @Autowired private ChatRoomService chatRoomService;
 
-    public Message save(Message chatMessage) {
+    public Message save(Message chatMessage, int ref) {
+        if (ref != -1) {
+            chatMessage.setRef(ref);
+        }
         repository.save(chatMessage);
         return chatMessage;
     }
@@ -35,5 +38,6 @@ public class ChatMessageService {
 //                .orElseThrow(() ->
 //                        new ResourceNotFoundException("can't find message (" + id + ")"));
     }
+
 
 }

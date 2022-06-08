@@ -27,11 +27,16 @@ public class Chat {
     @Column(name = "chat_type")
     private String chatType;
 
+    @Column(name = "avatar")
+    private String ava;
+
     public Chat() {
     }
 
-    public Chat(String name, String participants) {
+    public Chat(String name, String participants, String type, String ava) {
         this.name = name;
         this.participants = participants;
+        this.chatType = type;
+        this.ava = ava;
     }
 }

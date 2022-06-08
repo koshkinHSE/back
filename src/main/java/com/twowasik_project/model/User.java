@@ -47,6 +47,9 @@ public class User {
     @Column(name = "chats")
     private String chats;
 
+    @Column(name = "avatar")
+    private String avatar;
+
     public User() {
 
     }
