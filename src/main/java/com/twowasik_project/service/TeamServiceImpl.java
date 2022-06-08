@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service @RequiredArgsConstructor @Slf4j
-public class TeamServiceImpl implements TeamService{
+public class TeamServiceImpl implements TeamService {
 
     private final TeamRepository teamRepository;
 

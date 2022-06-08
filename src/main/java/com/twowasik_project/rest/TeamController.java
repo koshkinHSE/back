@@ -1,7 +1,7 @@
 package com.twowasik_project.rest;
 
 import com.twowasik_project.dto.CreateTeamDto;
-import com.twowasik_project.dto.ShowTeamDto;
+import com.twowasik_project.dto.ShowDto;
 import com.twowasik_project.dto.TeamIdDto;
 import com.twowasik_project.exceptions.InvalidTokenExceptions;
 import com.twowasik_project.jwt.JWTProvider;
@@ -33,7 +33,7 @@ public class TeamController {
     private TeamIdDto teamIdDto;
 
     @Autowired
-    private ShowTeamDto showTeamDto;
+    private ShowDto showDto;
 
     @Autowired
     private User admin;
@@ -67,9 +67,9 @@ public class TeamController {
             throw new InvalidTokenExceptions();
         }
 
-        showTeamDto.setId(userService.getTeams(jwtProvider.getAccessClaims(request.getHeader("Authorization")).getSubject()));
-        showTeamDto.setName(teamService.showTeams(showTeamDto.getId()));
+        showDto.setId(userService.getTeams(jwtProvider.getAccessClaims(request.getHeader("Authorization")).getSubject()));
+        showDto.setName(teamService.showTeams(showDto.getId()));
 
-        return ResponseEntity.ok(showTeamDto);
+        return ResponseEntity.ok(showDto);
     }
 }

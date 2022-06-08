@@ -1,7 +1,9 @@
 package com.twowasik_project.rest;
 
+import com.twowasik_project.dto.CreateChannelDto;
 import com.twowasik_project.dto.CreateChatDto;
 import com.twowasik_project.dto.CreateTeamDto;
+import com.twowasik_project.dto.TeamIdDto;
 import com.twowasik_project.exceptions.InvalidTokenExceptions;
 import com.twowasik_project.jwt.JWTProvider;
 import com.twowasik_project.model.Chat;
@@ -46,25 +48,27 @@ public class ChatController {
         return ResponseEntity.ok(true);
     }
 
-//    @PostMapping("showChannels")
-//    public ResponseEntity createChannel(HttpServletRequest request, @RequestBody ShowChannelDto showChannelDto) {
-//
-//        if (!jwtProvider.validateAccessToken(request.getHeader("Authorization"))) {
-//            throw new InvalidTokenExceptions();
-//        }
-//
-//        List<Integer> id = new ArrayList<>();
-//        List<String> name = new ArrayList<>();
-//        List<String> description = new ArrayList<>();
-//
-//        for(Chat channel: chatRepository.getAll(showChannelDto.getTeam_id())) {
-//            id.add(channel.getId());
-//            name.add(channel.getName());
-//            description.add(channel.getDescription());
-//        }
-//        showChannel.setId(id);
-//        showChannel.setName(name);
-//        showChannel.setDescription(description);
-//        return ResponseEntity.ok(showChannel);
-//    }
+    @PostMapping("createChannel")
+    public ResponseEntity createChannel(HttpServletRequest request, @RequestBody CreateChannelDto createChannelDto) {
+
+        if (!jwtProvider.validateAccessToken(request.getHeader("Authorization"))) {
+            return ResponseEntity.badRequest().body("Unauthorized");
+        }
+
+        if (!chatService.saveChannel(createChannelDto.getName(), createChannelDto.getTeam_id())) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("showChannels")
+    public ResponseEntity createChannel(HttpServletRequest request, @RequestBody TeamIdDto teamIdDto) {
+
+        if (!jwtProvider.validateAccessToken(request.getHeader("Authorization"))) {
+            throw new InvalidTokenExceptions();
+        }
+
+        return ResponseEntity.ok(chatService.showChannels(teamIdDto.getId()));
+    }
 }
