@@ -41,9 +41,9 @@ public class TeamController {
     @PostMapping("create")
     public ResponseEntity createTeam(HttpServletRequest request, @RequestBody CreateTeamDto createTeamDto) {
 
-        // if (!jwtProvider.validateAccessToken(request.getHeader("Authorization"))) {
-         //   throw new InvalidTokenExceptions();
-        //}
+        if (!jwtProvider.validateAccessToken(request.getHeader("Authorization"))) {
+            throw new InvalidTokenExceptions();
+        }
 
         admin = userService.findByUsername(jwtProvider.getAccessClaims(request.getHeader("Authorization")).getSubject());
         String participantsId = userService.getUsersId(createTeamDto.getTeam_participants(), Integer.toString(admin.getId()));

@@ -83,7 +83,7 @@ public class MessageController {
     @MessageMapping("/chat")
     public void processMessage(@Payload Message chatMessage) {
         Message saved = chatMessageService.save(chatMessage, -1);
-        messagingTemplate.convertAndSend("/messages", chatMessage);
+        messagingTemplate.convertAndSendToUser(chatMessage.getChat_id() + "","queue/messages", chatMessage);
     }
 
 //    @GetMapping("/messages/{chat_id}/count")

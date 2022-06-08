@@ -41,13 +41,18 @@ public class ChatController {
         if (!jwtProvider.validateAccessToken(request.getHeader("Authorization"))) {
             return ResponseEntity.badRequest().body("Unauthorized");
         }
+        int team_id = 1;
         String type = CreateChatDto.getType();
         String participants = " ";
         String ava;
-        if (type == "GROUP"){
+        System.out.println(1);
+        System.out.println(type);
+        if (type.equals("GROUP")){
             List<User> participants_list = CreateChatDto.getParticipants();
+            System.out.println(participants_list.size());
+            System.out.println(1);
             participants = String.valueOf(userService.findByUsername(jwtProvider.getAccessClaims(request.getHeader("Authorization")).getSubject()).getId()).concat(" ");
-            for (int i = 0; i < participants_list.size(); i++){
+            for (int i = 1; i < participants_list.size(); i++){
                 User user = participants_list.get(i);
                 String id = String.valueOf(user.getId()).concat(" ");
                 participants = participants.concat(id);
@@ -62,7 +67,6 @@ public class ChatController {
             participants = participants.concat(String.valueOf(user.getId()));
         }
         String name = CreateChatDto.getName();
-
         chatService.saveChat(new Chat(name, participants, type, ava));
         return ResponseEntity.ok(true);
     }

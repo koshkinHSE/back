@@ -38,5 +38,6 @@ public class Chat {
         this.participants = participants;
         this.chatType = type;
         this.ava = ava;
+        this.teamId = 1;
     }
 }
