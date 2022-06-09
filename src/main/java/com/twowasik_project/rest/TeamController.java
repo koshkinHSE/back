@@ -54,7 +54,7 @@ public class TeamController {
             return ResponseEntity.notFound().build();
         }
 
-        teamIdDto.setId(teamService.saveTeam(new Team(createTeamDto.getName(), participantsId, Integer.toString(admin.getId()))));
+        teamIdDto.setId(teamService.saveTeam(new Team(createTeamDto.getName(), participantsId, Integer.toString(admin.getId()), createTeamDto.getAvatar())));
 
         userService.addTeam(Integer.toString(teamIdDto.getId()), participantsId);
 
@@ -96,5 +96,15 @@ public class TeamController {
         teamService.addPerson(addPersonDto.getTeam_id(), participantsId);
 
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("getTeam")
+    public ResponseEntity getTeam(HttpServletRequest request, @RequestBody TeamIdDto teamIdDto) {
+
+        if (!jwtProvider.validateAccessToken(request.getHeader("Authorization"))) {
+            throw new InvalidTokenExceptions();
+        }
+
+        return ResponseEntity.ok(teamService.getTeam(teamIdDto.getId()));
     }
 }
