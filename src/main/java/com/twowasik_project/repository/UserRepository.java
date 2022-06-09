@@ -37,9 +37,11 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query(value = "UPDATE users SET teams = :teams WHERE user_id = :user_id", nativeQuery = true)
     void updateTeams(@Param("teams") String teams, @Param("user_id") int userId);
 
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE users SET chats = :chats WHERE user_id = :user_id", nativeQuery = true)
+    void updateChats(@Param("chats") String chats, @Param("user_id") int userId);
+
     @Query(value = "select * from users where users.user_name like concat('%',:username,'%')", nativeQuery = true)
     List<User> findUsers(@Param("username") String username);
-
-    //List<User> findByUsernameContaining(String username);
-    //List<User> findByUsernameLike(String username);
 }

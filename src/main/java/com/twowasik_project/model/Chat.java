@@ -40,4 +40,10 @@ public class Chat {
         this.ava = ava;
         this.teamId = 1;
     }
+
+    public Chat(String name, int teamId) {
+        this.name = name;
+        this.teamId = teamId;
+        this.chatType = "Channel";
+    }
 }

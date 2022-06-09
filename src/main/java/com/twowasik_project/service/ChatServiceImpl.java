@@ -1,5 +1,6 @@
 package com.twowasik_project.service;
 
+import com.twowasik_project.dto.ShowDto;
 import com.twowasik_project.model.Chat;
 import com.twowasik_project.model.Message;
 import com.twowasik_project.repository.TeamRepository;
@@ -8,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -15,18 +17,32 @@ import java.util.List;
 @Slf4j
 public class ChatServiceImpl implements ChatService{
     private final com.twowasik_project.repository.ChatRepository chatRepository;
+
+    private final com.twowasik_project.service.UserService userService;
     //private final com.twowasik_project.repository.MessageRepository messageRepository;
 
-//    @Override
+    @Override
     public Chat saveChat(Chat chat) {
         return chatRepository.save(chat);
     }
 
-    public List<Chat> showChats(String type){
-        return chatRepository.getChats(type);
+    public List<Chat> showChats(int userId, String type){
+        Collection chats = userService.getChats(userId);
+        System.out.println(type);
+        System.out.println(chats);
+        List<Chat> user_chats = chatRepository.getUserChats(type, chats);
+        return user_chats;
     }
-//
-//    public Message saveMessage(Message message) {
-//        return messageRepository.save(message);
-//    }
+
+    @Override
+    public boolean saveChannel(String name, int teamId) {
+        if (chatRepository.checkChannel(name) != null) { return false; }
+        chatRepository.save(new Chat(name, teamId));
+        return true;
+    }
+
+    @Override
+    public ShowDto showChannels(int teamId) {
+        return new ShowDto(chatRepository.getChatsId(teamId), chatRepository.getChatsName(teamId));
+    }
 }
