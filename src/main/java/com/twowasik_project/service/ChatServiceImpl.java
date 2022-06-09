@@ -1,5 +1,6 @@
 package com.twowasik_project.service;
 
+import com.twowasik_project.dto.LastMessageDto;
 import com.twowasik_project.dto.ShowDto;
 import com.twowasik_project.model.Chat;
 import com.twowasik_project.model.Message;
@@ -7,8 +8,10 @@ import com.twowasik_project.repository.TeamRepository;
 import com.twowasik_project.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -18,20 +21,28 @@ import java.util.List;
 public class ChatServiceImpl implements ChatService{
     private final com.twowasik_project.repository.ChatRepository chatRepository;
 
+    private final com.twowasik_project.repository.ChatMessageRepository chatMessageRepository;
+
     private final com.twowasik_project.service.UserService userService;
-    //private final com.twowasik_project.repository.MessageRepository messageRepository;
+
+    @Autowired
+    private LastMessageDto lastMessageDto;
 
     @Override
     public Chat saveChat(Chat chat) {
         return chatRepository.save(chat);
     }
 
-    public List<Chat> showChats(int userId, String type){
+    public LastMessageDto showChats(int userId, String type){
         Collection chats = userService.getChats(userId);
-        System.out.println(type);
-        System.out.println(chats);
         List<Chat> user_chats = chatRepository.getUserChats(type, chats);
-        return user_chats;
+        lastMessageDto.setChats(user_chats);
+        ArrayList<Message> last_mes = new ArrayList();
+        for (Chat chat: user_chats){
+            last_mes.add(chatMessageRepository.getLastMessage(chat.getId()));
+        }
+        lastMessageDto.setMessages(last_mes);
+        return lastMessageDto;
     }
 
     @Override
