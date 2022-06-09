@@ -48,10 +48,10 @@ public class TeamController {
 
         admin = userService.findByUsername(jwtProvider.getAccessClaims(request.getHeader("Authorization")).getSubject());
         String participantsId = userService.getUsersId(createTeamDto.getTeam_participants(), Integer.toString(admin.getId()));
-
+        System.out.println(participantsId);
         if (participantsId.equals("")) {
             System.out.println(participantsId);
-            return ResponseEntity.ok(false);
+            return ResponseEntity.notFound().build();
         }
 
         teamIdDto.setId(teamService.saveTeam(new Team(createTeamDto.getName(), participantsId, Integer.toString(admin.getId()))));
