@@ -3,6 +3,7 @@ package com.twowasik_project.service;
 import com.twowasik_project.dto.ShowDto;
 import com.twowasik_project.model.Chat;
 import com.twowasik_project.model.Message;
+import com.twowasik_project.repository.ChatMessageRepository;
 import com.twowasik_project.repository.TeamRepository;
 import com.twowasik_project.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,8 @@ public class ChatServiceImpl implements ChatService{
 
     private final com.twowasik_project.service.UserService userService;
     //private final com.twowasik_project.repository.MessageRepository messageRepository;
+
+    private final ChatMessageRepository chatMessageRepository;
 
     @Override
     public Chat saveChat(Chat chat) {
@@ -44,5 +47,10 @@ public class ChatServiceImpl implements ChatService{
     @Override
     public ShowDto showChannels(int teamId) {
         return new ShowDto(chatRepository.getChatsId(teamId), chatRepository.getChatsName(teamId));
+    }
+
+    @Override
+    public Message findMassageById(int id) {
+        return chatMessageRepository.findMessageByMessage_id(id);
     }
 }

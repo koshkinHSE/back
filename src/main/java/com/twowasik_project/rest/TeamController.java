@@ -3,7 +3,7 @@ package com.twowasik_project.rest;
 import com.twowasik_project.dto.AddPersonDto;
 import com.twowasik_project.dto.CreateTeamDto;
 import com.twowasik_project.dto.ShowDto;
-import com.twowasik_project.dto.TeamIdDto;
+import com.twowasik_project.dto.IdDto;
 import com.twowasik_project.exceptions.InvalidTokenExceptions;
 import com.twowasik_project.jwt.JWTProvider;
 import com.twowasik_project.model.Team;
@@ -31,7 +31,7 @@ public class TeamController {
     private JWTProvider jwtProvider;
 
     @Autowired
-    private TeamIdDto teamIdDto;
+    private IdDto idDto;
 
     @Autowired
     private ShowDto showDto;
@@ -54,11 +54,11 @@ public class TeamController {
             return ResponseEntity.notFound().build();
         }
 
-        teamIdDto.setId(teamService.saveTeam(new Team(createTeamDto.getName(), participantsId, Integer.toString(admin.getId()), createTeamDto.getAvatar())));
+        idDto.setId(teamService.saveTeam(new Team(createTeamDto.getName(), participantsId, Integer.toString(admin.getId()), createTeamDto.getAvatar())));
 
-        userService.addTeam(Integer.toString(teamIdDto.getId()), participantsId);
+        userService.addTeam(Integer.toString(idDto.getId()), participantsId);
 
-        return ResponseEntity.ok(teamIdDto);
+        return ResponseEntity.ok(idDto);
     }
 
     @GetMapping("showTeams")
@@ -99,12 +99,12 @@ public class TeamController {
     }
 
     @PostMapping("getTeam")
-    public ResponseEntity getTeam(HttpServletRequest request, @RequestBody TeamIdDto teamIdDto) {
+    public ResponseEntity getTeam(HttpServletRequest request, @RequestBody IdDto idDto) {
 
         if (!jwtProvider.validateAccessToken(request.getHeader("Authorization"))) {
             throw new InvalidTokenExceptions();
         }
 
-        return ResponseEntity.ok(teamService.getTeam(teamIdDto.getId()));
+        return ResponseEntity.ok(teamService.getTeam(idDto.getId()));
     }
 }

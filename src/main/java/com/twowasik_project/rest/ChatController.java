@@ -4,6 +4,7 @@ import com.twowasik_project.dto.*;
 import com.twowasik_project.exceptions.InvalidTokenExceptions;
 import com.twowasik_project.jwt.JWTProvider;
 import com.twowasik_project.model.Chat;
+import com.twowasik_project.model.Message;
 import com.twowasik_project.model.User;
 import com.twowasik_project.service.ChatService;
 import com.twowasik_project.service.UserService;
@@ -93,12 +94,28 @@ public class ChatController {
     }
 
     @PostMapping("showChannels")
-    public ResponseEntity createChannel(HttpServletRequest request, @RequestBody TeamIdDto teamIdDto) {
+    public ResponseEntity createChannel(HttpServletRequest request, @RequestBody IdDto idDto) {
 
         if (!jwtProvider.validateAccessToken(request.getHeader("Authorization"))) {
             throw new InvalidTokenExceptions();
         }
 
-        return ResponseEntity.ok(chatService.showChannels(teamIdDto.getId()));
+        return ResponseEntity.ok(chatService.showChannels(idDto.getId()));
+    }
+
+    @PostMapping("pinned")
+    public ResponseEntity getPinned(HttpServletRequest request, @RequestBody IdDto idDto) {
+
+        if (!jwtProvider.validateAccessToken(request.getHeader("Authorization"))) {
+            throw new InvalidTokenExceptions();
+        }
+
+        Message message = chatService.findMassageById(idDto.getId());
+
+        if (message == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(message);
     }
 }
