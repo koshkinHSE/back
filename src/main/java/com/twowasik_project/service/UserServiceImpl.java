@@ -1,6 +1,8 @@
 package com.twowasik_project.service;
 
+import com.twowasik_project.model.Chat;
 import com.twowasik_project.model.User;
+import com.twowasik_project.repository.ChatRepository;
 import com.twowasik_project.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +15,8 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+
+    private final ChatRepository chatRepository;
 
     @Override
     public User saveUser(User user) {
@@ -32,7 +36,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public String getUsersId(String participants, String admin) {
         StringBuilder usersId = new StringBuilder(admin + " ");
-        if (!participants.equals("")) {
+        if (participants != null) {
             User user;
             for (String email : participants.split(" ")) {
                 user = findByEmail(email);
@@ -80,5 +84,28 @@ public class UserServiceImpl implements UserService {
             teamsId.add(Integer.parseInt(id));
         }
         return teamsId;
+    }
+
+    @Override
+    public void addChat(String chatId, String usersId) {
+        int id;
+        String chats;
+        for (String userId: usersId.split(" ")) {
+            id = Integer.parseInt(userId);
+            chats = userRepository.findById(id).getChats();
+            if (chats == null) { chats = ""; }
+            userRepository.updateChats(chats + chatId + " ", id);
+        }
+    }
+
+    @Override
+    public List<Integer> getChats(int id) {
+        List<Integer> chatsId = new ArrayList<>();
+        String chats = userRepository.findById(id).getChats();
+        if (chats == null) { return chatsId; }
+        for (String chat_id: chats.split(" ")) {
+            chatsId.add(Integer.parseInt(chat_id));
+        }
+        return chatsId;
     }
 }

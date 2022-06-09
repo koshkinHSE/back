@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import java.util.Collection;
 import java.util.List;
 
 public interface ChatRepository extends JpaRepository<Chat, Integer> {
@@ -23,4 +25,7 @@ public interface ChatRepository extends JpaRepository<Chat, Integer> {
 
     @Query(value = "SELECT chat_name FROM chat WHERE team_id = :id", nativeQuery = true)
     List<String> getChatsName(@Param("id") int id);
+
+    @Query(value = "select * from chat where chat.chat_id in :chat_id and chat.chat_type = :chat_type", nativeQuery = true)
+    List<Chat> getUserChats(@Param("chat_type") String chat_type, @Param("chat_id") Collection chat_id);
 }

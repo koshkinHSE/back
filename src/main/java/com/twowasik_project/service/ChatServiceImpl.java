@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -16,6 +17,8 @@ import java.util.List;
 @Slf4j
 public class ChatServiceImpl implements ChatService{
     private final com.twowasik_project.repository.ChatRepository chatRepository;
+
+    private final com.twowasik_project.service.UserService userService;
     //private final com.twowasik_project.repository.MessageRepository messageRepository;
 
     @Override
@@ -23,9 +26,14 @@ public class ChatServiceImpl implements ChatService{
         return chatRepository.save(chat);
     }
 
-    public List<Chat> showChats(String type){
-        return chatRepository.getChats(type);
+    public List<Chat> showChats(int userId, String type){
+        Collection chats = userService.getChats(userId);
+        System.out.println(type);
+        System.out.println(chats);
+        List<Chat> user_chats = chatRepository.getUserChats(type, chats);
+        return user_chats;
     }
+
     @Override
     public boolean saveChannel(String name, int teamId) {
         if (chatRepository.checkChannel(name) != null) { return false; }
