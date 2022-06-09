@@ -1,9 +1,6 @@
 package com.twowasik_project.rest;
 
-import com.twowasik_project.dto.AddPersonDto;
-import com.twowasik_project.dto.CreateTeamDto;
-import com.twowasik_project.dto.ShowDto;
-import com.twowasik_project.dto.TeamIdDto;
+import com.twowasik_project.dto.*;
 import com.twowasik_project.exceptions.InvalidTokenExceptions;
 import com.twowasik_project.jwt.JWTProvider;
 import com.twowasik_project.model.Team;
@@ -42,9 +39,9 @@ public class TeamController {
     @PostMapping("create")
     public ResponseEntity createTeam(HttpServletRequest request, @RequestBody CreateTeamDto createTeamDto) {
 
-        // if (!jwtProvider.validateAccessToken(request.getHeader("Authorization"))) {
-         //   throw new InvalidTokenExceptions();
-        //}
+         if (!jwtProvider.validateAccessToken(request.getHeader("Authorization"))) {
+            throw new InvalidTokenExceptions();
+         }
 
         admin = userService.findByUsername(jwtProvider.getAccessClaims(request.getHeader("Authorization")).getSubject());
         String participantsId = userService.getUsersId(createTeamDto.getTeam_participants(), Integer.toString(admin.getId()));
@@ -54,7 +51,7 @@ public class TeamController {
             return ResponseEntity.ok(false);
         }
 
-        teamIdDto.setId(teamService.saveTeam(new Team(createTeamDto.getName(), participantsId, Integer.toString(admin.getId()))));
+        teamIdDto.setId(teamService.saveTeam(new Team(createTeamDto.getName(), participantsId, Integer.toString(admin.getId()), createTeamDto.getAvatar())));
 
         userService.addTeam(Integer.toString(teamIdDto.getId()), participantsId);
 
@@ -96,5 +93,15 @@ public class TeamController {
         teamService.addPerson(addPersonDto.getTeam_id(), participantsId);
 
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("getTeam")
+    public ResponseEntity getTeam(HttpServletRequest request, @RequestBody TeamIdDto teamIdDto) {
+
+        if (!jwtProvider.validateAccessToken(request.getHeader("Authorization"))) {
+            throw new InvalidTokenExceptions();
+        }
+
+        return ResponseEntity.ok(teamService.getTeam(teamIdDto.getId()));
     }
 }

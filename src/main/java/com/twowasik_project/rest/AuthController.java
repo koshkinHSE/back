@@ -48,12 +48,13 @@ public class AuthController {
         String email = registrationRequestDto.getEmail();
         String password = registrationRequestDto.getPassword();
         String name = registrationRequestDto.getName();
+        String avatar = registrationRequestDto.getAvatar();
 
         if (userService.findByEmail(email) != null) {
             return ResponseEntity.ok(false);
         }
 
-        user = userService.saveUser(new User(email, password, name));
+        user = userService.saveUser(new User(email, password, name, avatar));
 
         jwtDto.setAccessToken(jwtProvider.generateAccessToken(user));
         jwtDto.setRefreshToken(jwtProvider.generateRefreshToken(user));

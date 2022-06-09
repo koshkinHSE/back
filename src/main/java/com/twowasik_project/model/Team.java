@@ -24,13 +24,17 @@ public class Team {
     @Column(name = "admins")
     private String admins;
 
+    @Column(name = "avatar")
+    private String avatar;
+
     public Team() {
 
     }
 
-    public Team(String name, String participants, String admins) {
+    public Team(String name, String participants, String admins, String avatar) {
         this.name = name;
         this.participants = participants;
         this.admins = admins;
+        this.avatar = avatar;
     }
 }

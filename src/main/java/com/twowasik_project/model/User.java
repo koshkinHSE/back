@@ -54,7 +54,7 @@ public class User {
 
     }
 
-    public User(String email, String password, String username) {
+    public User(String email, String password, String username, String avatar) {
         this.email = email;
         this.password = password;
         this.username = username;
@@ -62,5 +62,6 @@ public class User {
         this.created = new Date(createTime);
         this.updated = new Date(createTime);
         this.status = Status.ACTIVE;
+        this.avatar = avatar;
     }
 }

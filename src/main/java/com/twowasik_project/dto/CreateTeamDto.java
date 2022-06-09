@@ -6,4 +6,5 @@ import lombok.Data;
 public class CreateTeamDto {
     private String name;
     private String team_participants;
+    private String avatar;
 }

@@ -1,5 +1,6 @@
 package com.twowasik_project.service;
 
+import com.twowasik_project.dto.GetTeamDto;
 import com.twowasik_project.model.Team;
 import com.twowasik_project.repository.TeamRepository;
 import lombok.RequiredArgsConstructor;
@@ -37,5 +38,11 @@ public class TeamServiceImpl implements TeamService {
     @Override
     public void addPerson(int teamId, String participantsId) {
         teamRepository.updateParticipants(teamRepository.findById(teamId).getParticipants() + participantsId, teamId);
+    }
+
+    @Override
+    public GetTeamDto getTeam(int teamId) {
+        Team team = teamRepository.findById(teamId);
+        return new GetTeamDto(team.getName(), team.getAvatar());
     }
 }
