@@ -1,5 +1,6 @@
 package com.twowasik_project.service;
 
+import com.twowasik_project.dto.LastMessageDto;
 import com.twowasik_project.dto.ShowDto;
 import com.twowasik_project.model.Chat;
 import com.twowasik_project.model.Message;
@@ -11,7 +12,7 @@ public interface ChatService {
 
     public Chat saveChat(Chat chat);
 
-    public List<Chat> showChats(int userId, String type);
+    LastMessageDto showChats(int userId, String type);
 
     public boolean saveChannel(String name, int teamId);
 
