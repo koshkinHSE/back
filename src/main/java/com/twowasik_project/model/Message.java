@@ -14,7 +14,7 @@ public class Message {
     @Id
     @Column(name = "message_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int message_id;
+    private int messageId;
 
     @JoinColumn(name = "chat_id", referencedColumnName = "chat_id")
     private int chat_id;

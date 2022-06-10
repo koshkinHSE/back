@@ -5,8 +5,7 @@ import com.twowasik_project.dto.ShowDto;
 import com.twowasik_project.model.Chat;
 import com.twowasik_project.model.Message;
 import com.twowasik_project.repository.ChatMessageRepository;
-import com.twowasik_project.repository.TeamRepository;
-import com.twowasik_project.repository.UserRepository;
+import com.twowasik_project.repository.ChatRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,16 +19,14 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class ChatServiceImpl implements ChatService{
-    private final com.twowasik_project.repository.ChatRepository chatRepository;
+    private final ChatRepository chatRepository;
 
-    private final com.twowasik_project.repository.ChatMessageRepository chatMessageRepository;
+    private final ChatMessageRepository chatMessageRepository;
 
-    private final com.twowasik_project.service.UserService userService;
+    private final UserService userService;
 
     @Autowired
     private LastMessageDto lastMessageDto;
-
-    private final ChatMessageRepository chatMessageRepository;
 
     @Override
     public Chat saveChat(Chat chat) {
@@ -62,6 +59,6 @@ public class ChatServiceImpl implements ChatService{
 
     @Override
     public Message findMassageById(int id) {
-        return chatMessageRepository.findMessageByMessage_id(id);
+        return chatMessageRepository.findMessageByMessageId(id);
     }
 }

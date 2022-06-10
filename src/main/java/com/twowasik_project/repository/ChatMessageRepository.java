@@ -17,7 +17,7 @@ public interface ChatMessageRepository extends JpaRepository<Message, Integer> {
     @Query(value = "select * from message where chat_id = :chat_id", nativeQuery = true)
     List<Message> getMessages(@Param("chat_id") int chat_id);
 
-    Message findMessageByMessage_id(int message_id);
+    Message findMessageByMessageId(int message_id);
 
     @Query(value = "select * from message where chat_id = :chat_id ORDER BY message.message_id DESC LIMIT 1", nativeQuery = true)
     Message getLastMessage(@Param("chat_id") int chat_id);
