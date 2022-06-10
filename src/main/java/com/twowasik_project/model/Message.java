@@ -34,14 +34,11 @@ public class Message {
     @Column(name = "status")
     private boolean status;
 
-    @Column(name = "who_saw")
-    private String who_saw;
-
-    @Column(name = "isFixed")
+    @Column(name = "is_fixed")
     private boolean isFixed;
 
     @Column(name = "ref")
-    private int ref;
+    private Integer ref;
 
     public Message() {
     }

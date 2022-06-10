@@ -94,7 +94,7 @@ public class ChatController {
     }
 
     @PostMapping("showChannels")
-    public ResponseEntity createChannel(HttpServletRequest request, @RequestBody IdDto idDto) {
+    public ResponseEntity showChannels(HttpServletRequest request, @RequestBody IdDto idDto) {
 
         if (!jwtProvider.validateAccessToken(request.getHeader("Authorization"))) {
             throw new InvalidTokenExceptions();

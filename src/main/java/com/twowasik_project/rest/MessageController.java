@@ -63,6 +63,7 @@ package com.twowasik_project.rest;
 import com.twowasik_project.model.Message;
 import com.twowasik_project.service.ChatMessageService;
 import com.twowasik_project.service.ChatRoomService;
+import com.twowasik_project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -80,10 +81,13 @@ public class MessageController {
     @Autowired private ChatMessageService chatMessageService;
     @Autowired private ChatRoomService chatRoomService;
 
+    @Autowired private UserService userService;
+
     @MessageMapping("/chat")
-    public void processMessage(@Payload Message chatMessage) {
+    public ResponseEntity<?> processMessage(@Payload Message chatMessage) {
         Message saved = chatMessageService.save(chatMessage, -1);
         messagingTemplate.convertAndSendToUser(chatMessage.getChat_id() + "","queue/messages", chatMessage);
+        return ResponseEntity.ok(userService.findById(saved.getUser_id()));
     }
 
 //    @GetMapping("/messages/{chat_id}/count")

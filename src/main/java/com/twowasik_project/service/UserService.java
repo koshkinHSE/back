@@ -23,4 +23,6 @@ public interface UserService {
     void addChat(String teamId, String usersId);
 
     List<Integer> getChats(int id);
+
+    User findById(int id);
 }
