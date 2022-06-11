@@ -26,8 +26,9 @@ public class Message {
     @Column(name = "text")
     private String text;
 
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "media_id", referencedColumnName = "media_id")
-    private int media_id;
+    private Media media;
 
     @Column(name = "status")
     private boolean status;
@@ -41,13 +42,13 @@ public class Message {
     public Message() {
     }
 
-    public Message(int chat, int user, String time, String text, int media, int ref) {
+    public Message(int chat, int user, String time, String text, Media media, int ref) {
         this.chat_id = chat;
         this.user_id = user;
         this.time = time;
         this.text = text;
         this.status = false;
-        this.media_id = media;
+        this.media = media;
         this.isFixed = false;
         this.ref = ref;
     }
