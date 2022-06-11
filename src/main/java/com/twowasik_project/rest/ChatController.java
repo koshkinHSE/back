@@ -61,7 +61,7 @@ public class ChatController {
             participants = String.valueOf(userService.findByUsername(jwtProvider.getAccessClaims(request.getHeader("Authorization")).getSubject()).getId()).concat(" ");
             List<User> participants_list = CreateChatDto.getParticipants();
             User user = participants_list.get(0);
-            ava = user.getAvatar();
+            ava = CreateChatDto.getAva();
             participants = participants.concat(String.valueOf(user.getId()));
         }
         String name = CreateChatDto.getName();
