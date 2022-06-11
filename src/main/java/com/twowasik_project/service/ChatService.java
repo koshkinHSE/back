@@ -2,10 +2,7 @@ package com.twowasik_project.service;
 
 import com.twowasik_project.dto.LastMessageDto;
 import com.twowasik_project.dto.ShowDto;
-import com.twowasik_project.model.Chat;
-import com.twowasik_project.model.Media;
-import com.twowasik_project.model.Message;
-import com.twowasik_project.model.Team;
+import com.twowasik_project.model.*;
 
 import java.util.List;
 
@@ -20,6 +17,8 @@ public interface ChatService {
     ShowDto showChannels(int teamId);
 
     Message findMassageById(int id);
+
+    public ChatRef save_ref(ChatRef chatRef);
 
     List<Media> getMedia(int id);
 }
