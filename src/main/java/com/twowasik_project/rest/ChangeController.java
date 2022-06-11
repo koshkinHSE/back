@@ -42,6 +42,10 @@ public class ChangeController {
         String newAva = changeUserDataDto.getNewAva();
         String newUsername = changeUserDataDto.getNewUsername();
 
+        if (!oldPassword.equals("false") && !user.getPassword().equals(oldPassword)) {
+            return ResponseEntity.notFound().build();
+        }
+
         if (!newAva.equals("false")) { userRepository.updateAvatar(newAva, user.getId()); }
 
         jwtDto.setAccessToken("false");
