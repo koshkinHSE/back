@@ -44,15 +44,16 @@ public class ChangeController {
 
         if (!newAva.equals("false")) { userRepository.updateAvatar(newAva, user.getId()); }
 
-        if (!newUsername.equals("false")) {
-            userRepository.updateUsername(newUsername, user.getId());
+        jwtDto.setAccessToken("false");
+        jwtDto.setRefreshToken("false");
+
+        if (!newUsername.equals("false") || !oldPassword.equals("false")) {
+            if (!newUsername.equals("false")) {
+                userRepository.updateUsername(newUsername, user.getId());
+                user.setUsername(changeUserDataDto.getNewUsername());
+            }
             jwtDto.setAccessToken(jwtProvider.generateAccessToken(user));
             jwtDto.setRefreshToken(jwtProvider.generateRefreshToken(user));
-        }
-
-        if (!oldPassword.equals("false")) {
-            if (!oldPassword.equals(user.getPassword())) { return ResponseEntity.ok(false);  }
-            userRepository.updatePassword(newPassword, user.getId());
         }
 
         return ResponseEntity.ok(jwtDto);
