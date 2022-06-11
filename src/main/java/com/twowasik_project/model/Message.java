@@ -3,6 +3,7 @@ package com.twowasik_project.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.sql.Time;
 import java.util.Date;
 
 
@@ -23,7 +24,7 @@ public class Message {
     private int user_id;
 
     @Column(name = "time")
-    private Date time;
+    private Time time;
 
     @Column(name = "text")
     private String text;
@@ -43,7 +44,7 @@ public class Message {
     public Message() {
     }
 
-    public Message(int chat, int user, Date time, String text, int media, int ref) {
+    public Message(int chat, int user, Time time, String text, int media, int ref) {
         this.chat_id = chat;
         this.user_id = user;
         this.time = time;
