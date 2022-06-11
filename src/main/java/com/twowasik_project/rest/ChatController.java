@@ -50,7 +50,7 @@ public class ChatController {
             participants = String.valueOf(userService.findByUsername(jwtProvider.getAccessClaims(request.getHeader("Authorization")).getSubject()).getId()).concat(" ");
             User user = userService.findByUsername(jwtProvider.getAccessClaims(request.getHeader("Authorization")).getSubject());
             String chats = user.getChats();
-            for (int i = 1; i < participants_list.size(); i++){
+            for (int i = 0; i < participants_list.size(); i++){
                 user = participants_list.get(i);
                 String id = String.valueOf(user.getId()).concat(" ");
                 participants = participants.concat(id);
