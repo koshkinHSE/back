@@ -3,8 +3,11 @@ package com.twowasik_project.service;
 import com.twowasik_project.dto.LastMessageDto;
 import com.twowasik_project.dto.ShowDto;
 import com.twowasik_project.model.Chat;
+import com.twowasik_project.model.ChatRef;
+import com.twowasik_project.model.Media;
 import com.twowasik_project.model.Message;
 import com.twowasik_project.repository.ChatMessageRepository;
+import com.twowasik_project.repository.ChatRefRepository;
 import com.twowasik_project.repository.ChatRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +23,8 @@ import java.util.List;
 @Slf4j
 public class ChatServiceImpl implements ChatService{
     private final ChatRepository chatRepository;
+
+    private final ChatRefRepository chatRefRepository;
 
     private final ChatMessageRepository chatMessageRepository;
 
@@ -46,6 +51,11 @@ public class ChatServiceImpl implements ChatService{
     }
 
     @Override
+    public ChatRef save_ref(ChatRef chatRef){
+        return chatRefRepository.save(chatRef);
+    }
+
+    @Override
     public boolean saveChannel(String name, int teamId) {
         if (chatRepository.checkChannel(name) != null) { return false; }
         chatRepository.save(new Chat(name, teamId));
@@ -60,5 +70,10 @@ public class ChatServiceImpl implements ChatService{
     @Override
     public Message findMassageById(int id) {
         return chatMessageRepository.findMessageByMessageId(id);
+    }
+
+    @Override
+    public List<Media> getMedia(int id) {
+        return chatRepository.getMedia(id);
     }
 }

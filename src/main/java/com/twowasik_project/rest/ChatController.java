@@ -3,9 +3,7 @@ package com.twowasik_project.rest;
 import com.twowasik_project.dto.*;
 import com.twowasik_project.exceptions.InvalidTokenExceptions;
 import com.twowasik_project.jwt.JWTProvider;
-import com.twowasik_project.model.Chat;
-import com.twowasik_project.model.Message;
-import com.twowasik_project.model.User;
+import com.twowasik_project.model.*;
 import com.twowasik_project.service.ChatService;
 import com.twowasik_project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,6 +65,7 @@ public class ChatController {
         String name = CreateChatDto.getName();
         chatIdDto.setId(chatService.saveChat(new Chat(name, participants, type, ava)).getId());
         userService.addChat(Integer.toString(chatIdDto.getId()), participants);
+        chatService.save_ref(new ChatRef(chatIdDto.getId()));
         return ResponseEntity.ok(chatIdDto);
     }
 
@@ -117,5 +116,14 @@ public class ChatController {
         }
 
         return ResponseEntity.ok(message);
+    }
+
+    @PostMapping("getMedia")
+    public ResponseEntity getMedia(HttpServletRequest request, @RequestBody MediaDto MediaDto) {
+        if (!jwtProvider.validateAccessToken(request.getHeader("Authorization"))) {
+            throw new InvalidTokenExceptions();
+        }
+        int chatId = MediaDto.getId();
+        return ResponseEntity.ok(chatService.getMedia(chatId));
     }
 }
