@@ -29,7 +29,6 @@ public class ChatServiceImpl implements ChatService{
     @Autowired
     private LastMessageDto lastMessageDto;
 
-    private final ChatMessageRepository chatMessageRepository;
 
     @Override
     public Chat saveChat(Chat chat) {

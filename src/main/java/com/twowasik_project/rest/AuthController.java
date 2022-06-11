@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 @CrossOrigin(origins = "http://localhost:3000/", maxAge = 3600)
 @RestController
 @RequestMapping(value = "/auth/")
@@ -71,5 +73,11 @@ public class AuthController {
         jwtDto.setAccessToken(jwtProvider.generateAccessToken(user));
         jwtDto.setRefreshToken(jwtProvider.generateRefreshToken(user));
         return ResponseEntity.ok(jwtDto);
+    }
+
+    @GetMapping("getUser")
+    public ResponseEntity getSelf(HttpServletRequest request){
+        User user = userService.findByUsername(jwtProvider.getAccessClaims(request.getHeader("Authorization")).getSubject());
+        return ResponseEntity.ok(user);
     }
 }
