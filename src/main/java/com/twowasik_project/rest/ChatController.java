@@ -4,6 +4,7 @@ import com.twowasik_project.dto.*;
 import com.twowasik_project.exceptions.InvalidTokenExceptions;
 import com.twowasik_project.jwt.JWTProvider;
 import com.twowasik_project.model.Chat;
+import com.twowasik_project.model.Media;
 import com.twowasik_project.model.Message;
 import com.twowasik_project.model.User;
 import com.twowasik_project.service.ChatService;
@@ -50,7 +51,7 @@ public class ChatController {
             participants = String.valueOf(userService.findByUsername(jwtProvider.getAccessClaims(request.getHeader("Authorization")).getSubject()).getId()).concat(" ");
             User user = userService.findByUsername(jwtProvider.getAccessClaims(request.getHeader("Authorization")).getSubject());
             String chats = user.getChats();
-            for (int i = 1; i < participants_list.size(); i++){
+            for (int i = 0; i < participants_list.size(); i++){
                 user = participants_list.get(i);
                 String id = String.valueOf(user.getId()).concat(" ");
                 participants = participants.concat(id);
@@ -94,7 +95,7 @@ public class ChatController {
     }
 
     @PostMapping("showChannels")
-    public ResponseEntity createChannel(HttpServletRequest request, @RequestBody IdDto idDto) {
+    public ResponseEntity showChannels(HttpServletRequest request, @RequestBody IdDto idDto) {
 
         if (!jwtProvider.validateAccessToken(request.getHeader("Authorization"))) {
             throw new InvalidTokenExceptions();
@@ -118,5 +119,13 @@ public class ChatController {
 
         return ResponseEntity.ok(message);
     }
-    
+
+    @PostMapping("getMedia")
+    public ResponseEntity getMedia(HttpServletRequest request, @RequestBody MediaDto MediaDto) {
+        if (!jwtProvider.validateAccessToken(request.getHeader("Authorization"))) {
+            throw new InvalidTokenExceptions();
+        }
+        int chatId = MediaDto.getId();
+        return ResponseEntity.ok(chatService.getMedia(chatId));
+    }
 }

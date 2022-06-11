@@ -107,4 +107,9 @@ public class UserServiceImpl implements UserService {
         }
         return chatsId;
     }
+
+    @Override
+    public User findById(int id) {
+        return userRepository.findById(id);
+    }
 }

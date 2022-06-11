@@ -3,6 +3,7 @@ package com.twowasik_project.service;
 import com.twowasik_project.dto.LastMessageDto;
 import com.twowasik_project.dto.ShowDto;
 import com.twowasik_project.model.Chat;
+import com.twowasik_project.model.Media;
 import com.twowasik_project.model.Message;
 import com.twowasik_project.model.Team;
 
@@ -19,4 +20,6 @@ public interface ChatService {
     ShowDto showChannels(int teamId);
 
     Message findMassageById(int id);
+
+    List<Media> getMedia(int id);
 }

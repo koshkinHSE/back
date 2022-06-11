@@ -3,8 +3,6 @@ package com.twowasik_project.model;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.Date;
-
 
 @Entity
 @Table(name = "message")
@@ -14,7 +12,7 @@ public class Message {
     @Id
     @Column(name = "message_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int message_id;
+    private int messageId;
 
     @JoinColumn(name = "chat_id", referencedColumnName = "chat_id")
     private int chat_id;
@@ -23,7 +21,7 @@ public class Message {
     private int user_id;
 
     @Column(name = "time")
-    private Date time;
+    private String time;
 
     @Column(name = "text")
     private String text;
@@ -34,19 +32,16 @@ public class Message {
     @Column(name = "status")
     private boolean status;
 
-    @Column(name = "who_saw")
-    private String who_saw;
-
-    @Column(name = "isFixed")
+    @Column(name = "is_fixed")
     private boolean isFixed;
 
     @Column(name = "ref")
-    private int ref;
+    private Integer ref;
 
     public Message() {
     }
 
-    public Message(int chat, int user, Date time, String text, int media, int ref) {
+    public Message(int chat, int user, String time, String text, int media, int ref) {
         this.chat_id = chat;
         this.user_id = user;
         this.time = time;

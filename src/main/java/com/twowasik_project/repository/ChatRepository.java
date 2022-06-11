@@ -3,6 +3,7 @@ package com.twowasik_project.repository;
 import com.twowasik_project.model.Chat;
 import com.twowasik_project.model.Message;
 import com.twowasik_project.model.Team;
+import com.twowasik_project.model.Media;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -28,4 +29,7 @@ public interface ChatRepository extends JpaRepository<Chat, Integer> {
 
     @Query(value = "select * from chat where chat.chat_id in :chat_id and chat.chat_type = :chat_type", nativeQuery = true)
     List<Chat> getUserChats(@Param("chat_type") String chat_type, @Param("chat_id") Collection chat_id);
+
+    @Query(value = "SELECT * FROM media WHERE chat_id = :id", nativeQuery = true)
+    List<Media> getMedia(@Param("id") int id);
 }
