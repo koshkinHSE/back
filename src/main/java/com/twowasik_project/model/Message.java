@@ -26,7 +26,7 @@ public class Message {
     @Column(name = "text")
     private String text;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "media_id", referencedColumnName = "media_id")
     private Media media;
 
