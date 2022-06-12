@@ -46,23 +46,23 @@ public class ChangeController {
             return ResponseEntity.notFound().build();
         }
 
-        if (!newAva.equals("false")) { userRepository.updateAvatar(newAva, user.getId()); }
-
-        jwtDto.setAccessToken("false");
-        jwtDto.setRefreshToken("false");
-
-        if (!newUsername.equals("false") || !oldPassword.equals("false")) {
-            if (!newUsername.equals("false")) {
-                userRepository.updateUsername(newUsername, user.getId());
-                user.setUsername(newUsername);
-            }
-            if (!oldPassword.equals("false")) {
-                userRepository.updatePassword(newPassword, user.getId());
-                user.setPassword(newPassword);
-            }
-            jwtDto.setAccessToken(jwtProvider.generateAccessToken(user));
-            jwtDto.setRefreshToken(jwtProvider.generateRefreshToken(user));
+        if (!newAva.equals("false")) {
+            userRepository.updateAvatar(newAva, user.getId());
+            user.setAvatar(newAva);
         }
+
+        if (!newUsername.equals("false")) {
+            userRepository.updateUsername(newUsername, user.getId());
+            user.setUsername(newUsername);
+        }
+
+        if (!oldPassword.equals("false")) {
+            userRepository.updatePassword(newPassword, user.getId());
+            user.setPassword(newPassword);
+        }
+
+        jwtDto.setAccessToken(jwtProvider.generateAccessToken(user));
+        jwtDto.setRefreshToken(jwtProvider.generateRefreshToken(user));
 
         return ResponseEntity.ok(jwtDto);
     }

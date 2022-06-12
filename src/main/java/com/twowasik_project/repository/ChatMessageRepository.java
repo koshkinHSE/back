@@ -24,6 +24,11 @@ public interface ChatMessageRepository extends JpaRepository<Message, Integer> {
 
     @Transactional
     @Modifying
-    @Query(value = "UPDATE message SET is_fixed = 'true' WHERE chat_id = :chat_id AND is_fixed = 'false'", nativeQuery = true)
+    @Query(value = "UPDATE message SET is_fixed = 'false' WHERE chat_id = :chat_id AND is_fixed = 'true'", nativeQuery = true)
     void dePinedMessage(@Param("chat_id") int chat_id);
+
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE message SET is_fixed = 'true' WHERE message_id = :message_id", nativeQuery = true)
+    void pinMessage(@Param("message_id") int message_id);
 }

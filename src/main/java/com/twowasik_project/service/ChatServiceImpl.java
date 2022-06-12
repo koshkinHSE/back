@@ -81,4 +81,9 @@ public class ChatServiceImpl implements ChatService{
     public void dePinedMessage(int id) {
         chatMessageRepository.dePinedMessage(id);
     }
+
+    @Override
+    public void pinMessage(int id) {
+        chatMessageRepository.pinMessage(id);
+    }
 }

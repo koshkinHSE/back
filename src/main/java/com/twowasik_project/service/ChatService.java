@@ -23,4 +23,6 @@ public interface ChatService {
     List<Media> getMedia(int id);
 
     void dePinedMessage(int id);
+
+    void pinMessage(int id);
 }
