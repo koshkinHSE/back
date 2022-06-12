@@ -54,7 +54,11 @@ public class ChangeController {
         if (!newUsername.equals("false") || !oldPassword.equals("false")) {
             if (!newUsername.equals("false")) {
                 userRepository.updateUsername(newUsername, user.getId());
-                user.setUsername(changeUserDataDto.getNewUsername());
+                user.setUsername(newUsername);
+            }
+            if (!oldPassword.equals("false")) {
+                userRepository.updatePassword(newPassword, user.getId());
+                user.setPassword(newPassword);
             }
             jwtDto.setAccessToken(jwtProvider.generateAccessToken(user));
             jwtDto.setRefreshToken(jwtProvider.generateRefreshToken(user));
