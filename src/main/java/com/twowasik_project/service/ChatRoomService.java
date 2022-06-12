@@ -18,7 +18,6 @@ public class ChatRoomService {
                     if(!createIfNotExist) {
                         return  Optional.empty();
                     }
-                    //chatRoomRepository.save(chat_id);
                     return Optional.of(chat_id);
                 });
     }

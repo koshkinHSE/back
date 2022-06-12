@@ -1,6 +1,5 @@
 package com.twowasik_project.repository;
 
-import com.twowasik_project.model.Message;
 import com.twowasik_project.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

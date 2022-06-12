@@ -1,6 +1,5 @@
 package com.twowasik_project.rest;
 
-import com.twowasik_project.dto.AuthenticationRequestDto;
 import com.twowasik_project.dto.ChangeUserDataDto;
 import com.twowasik_project.dto.JwtDto;
 import com.twowasik_project.exceptions.InvalidTokenExceptions;
@@ -8,7 +7,6 @@ import com.twowasik_project.jwt.JWTProvider;
 import com.twowasik_project.model.User;
 import com.twowasik_project.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

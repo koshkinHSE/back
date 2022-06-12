@@ -1,6 +1,5 @@
 package com.twowasik_project.service;
 
-import com.twowasik_project.model.Chat;
 import com.twowasik_project.model.User;
 
 import java.util.List;

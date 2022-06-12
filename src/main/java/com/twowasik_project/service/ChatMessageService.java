@@ -26,11 +26,6 @@ public class ChatMessageService {
         return chatMessage;
     }
 
-//    public long countNewMessages(String senderId, String recipientId) {
-//        return repository.countBySenderIdAndRecipientIdAndStatus(
-//                senderId, recipientId, MessageStatus.RECEIVED);
-//    }
-
     public FindChatMessagesDto findChatMessages(int chat_id) {
         List<Message> messages = (repository.getMessages(chat_id));
         List<User> users = new ArrayList<>();

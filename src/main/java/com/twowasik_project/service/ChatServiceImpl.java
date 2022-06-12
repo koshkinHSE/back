@@ -4,7 +4,6 @@ import com.twowasik_project.dto.LastMessageDto;
 import com.twowasik_project.dto.ShowDto;
 import com.twowasik_project.model.Chat;
 import com.twowasik_project.model.ChatRef;
-import com.twowasik_project.model.Media;
 import com.twowasik_project.model.Message;
 import com.twowasik_project.repository.ChatMessageRepository;
 import com.twowasik_project.repository.ChatRefRepository;
@@ -70,11 +69,6 @@ public class ChatServiceImpl implements ChatService{
     @Override
     public Message findMassageById(int id) {
         return chatMessageRepository.findMessageByMessageId(id);
-    }
-
-    @Override
-    public List<Media> getMedia(int id) {
-        return chatRepository.getMedia(id);
     }
 
     @Override
