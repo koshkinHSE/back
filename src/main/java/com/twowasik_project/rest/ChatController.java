@@ -117,7 +117,7 @@ public class ChatController {
             return ResponseEntity.notFound().build();
         }
 
-
+        chatService.pinMessage(pinMessageDto.getMessage());
 
         return ResponseEntity.ok(message);
     }
