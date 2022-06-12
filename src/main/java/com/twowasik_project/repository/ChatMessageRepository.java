@@ -21,4 +21,9 @@ public interface ChatMessageRepository extends JpaRepository<Message, Integer> {
 
     @Query(value = "select * from message where chat_id = :chat_id ORDER BY message.message_id DESC LIMIT 1", nativeQuery = true)
     Message getLastMessage(@Param("chat_id") int chat_id);
+
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE message SET is_fixed = 'true' WHERE chat_id = :chat_id AND is_fixed = 'false'", nativeQuery = true)
+    void dePinedMessage(@Param("chat_id") int chat_id);
 }

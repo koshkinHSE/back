@@ -21,4 +21,6 @@ public interface ChatService {
     public ChatRef save_ref(ChatRef chatRef);
 
     List<Media> getMedia(int id);
+
+    void dePinedMessage(int id);
 }

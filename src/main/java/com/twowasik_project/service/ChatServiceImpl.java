@@ -76,4 +76,9 @@ public class ChatServiceImpl implements ChatService{
     public List<Media> getMedia(int id) {
         return chatRepository.getMedia(id);
     }
+
+    @Override
+    public void dePinedMessage(int id) {
+        chatMessageRepository.dePinedMessage(id);
+    }
 }

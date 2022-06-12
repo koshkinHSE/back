@@ -49,6 +49,4 @@ public class ChatMessageService {
 //                .orElseThrow(() ->
 //                        new ResourceNotFoundException("can't find message (" + id + ")"));
     }
-
-
 }

@@ -102,20 +102,32 @@ public class ChatController {
         return ResponseEntity.ok(chatService.showChannels(idDto.getId()));
     }
 
-    @PostMapping("pinned")
-    public ResponseEntity getPinned(HttpServletRequest request, @RequestBody IdDto idDto) {
+    @PatchMapping("pinned")
+    public ResponseEntity getPinned(HttpServletRequest request, @RequestBody PinMessageDto pinMessageDto) {
 
         if (!jwtProvider.validateAccessToken(request.getHeader("Authorization"))) {
             throw new InvalidTokenExceptions();
         }
 
-        Message message = chatService.findMassageById(idDto.getId());
+        chatService.dePinedMessage(pinMessageDto.getChat_id());
+
+        Message message = chatService.findMassageById(pinMessageDto.getMessage());
 
         if (message == null) {
             return ResponseEntity.notFound().build();
         }
 
         return ResponseEntity.ok(message);
+    }
+
+    @PatchMapping("dePinned")
+    public void dePinned(HttpServletRequest request, @RequestBody IdDto idDto) {
+
+        if (!jwtProvider.validateAccessToken(request.getHeader("Authorization"))) {
+            throw new InvalidTokenExceptions();
+        }
+
+        chatService.dePinedMessage(idDto.getId());
     }
 
     @PostMapping("getMedia")
