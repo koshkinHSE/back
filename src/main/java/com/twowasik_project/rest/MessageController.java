@@ -41,7 +41,7 @@ public class MessageController {
         }
         if (text.indexOf("@github") != -1){
             String ref = new String();
-            int start = text.indexOf("h", text.indexOf("@github"));
+            int start = text.indexOf("h", text.indexOf("@github")+7);
             ref = text.substring(start, text.indexOf(" ", start));
             chatRefRepository.updateGit(ref, chatMessage.getChat_id());
         }

@@ -136,4 +136,13 @@ public class ChatController {
         User user = userService.findByUsername(jwtProvider.getAccessClaims(request.getHeader("Authorization")).getSubject());
         return ResponseEntity.ok(user);
     }
+
+    @PostMapping("getRef")
+    public ResponseEntity getMedia(HttpServletRequest request, @RequestBody RefDto RefDto) {
+        if (!jwtProvider.validateAccessToken(request.getHeader("Authorization"))) {
+            throw new InvalidTokenExceptions();
+        }
+        int chatId = RefDto.getId();
+        return ResponseEntity.ok(chatService.getRef(chatId));
+    }
 }
