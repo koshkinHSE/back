@@ -75,9 +75,5 @@ public class AuthController {
         return ResponseEntity.ok(jwtDto);
     }
 
-    @GetMapping("getUser")
-    public ResponseEntity getSelf(HttpServletRequest request){
-        User user = userService.findByUsername(jwtProvider.getAccessClaims(request.getHeader("Authorization")).getSubject());
-        return ResponseEntity.ok(user);
-    }
+
 }

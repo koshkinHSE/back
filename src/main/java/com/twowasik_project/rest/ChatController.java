@@ -131,4 +131,9 @@ public class ChatController {
 
         chatService.dePinedMessage(idDto.getId());
     }
+    @GetMapping("getUser")
+    public ResponseEntity getSelf(HttpServletRequest request){
+        User user = userService.findByUsername(jwtProvider.getAccessClaims(request.getHeader("Authorization")).getSubject());
+        return ResponseEntity.ok(user);
+    }
 }
