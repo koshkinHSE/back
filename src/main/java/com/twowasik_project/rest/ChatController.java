@@ -85,11 +85,13 @@ public class ChatController {
             return ResponseEntity.badRequest().body("Unauthorized");
         }
 
-        if (!chatService.saveChannel(createChannelDto.getName(), createChannelDto.getTeam_id())) {
+        int channelId = chatService.saveChannel(createChannelDto.getName(), createChannelDto.getTeam_id());
+
+        if (channelId == -1) {
             return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(new IdDto(channelId));
     }
 
     @PostMapping("showChannels")

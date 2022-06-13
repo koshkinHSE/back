@@ -55,10 +55,10 @@ public class ChatServiceImpl implements ChatService{
     }
 
     @Override
-    public boolean saveChannel(String name, int teamId) {
-        if (chatRepository.checkChannel(name) != null) { return false; }
-        chatRepository.save(new Chat(name, teamId));
-        return true;
+    public int saveChannel(String name, int teamId) {
+        if (chatRepository.checkChannel(name) != null) { return -1; }
+        Chat chat = chatRepository.save(new Chat(name, teamId));
+        return chat.getId();
     }
 
     @Override

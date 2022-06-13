@@ -5,5 +5,9 @@ import org.springframework.stereotype.Component;
 
 @Data @Component
 public class IdDto {
-    int id;
+    private int id;
+
+    public IdDto(int id) {
+        this.id = id;
+    }
 }

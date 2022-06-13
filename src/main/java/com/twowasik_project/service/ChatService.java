@@ -10,7 +10,7 @@ public interface ChatService {
 
     LastMessageDto showChats(int userId, String type);
 
-    boolean saveChannel(String name, int teamId);
+    int saveChannel(String name, int teamId);
 
     ShowDto showChannels(int teamId);
 
