@@ -9,7 +9,8 @@ import java.util.Collection;
 import java.util.List;
 
 public interface ChatRepository extends JpaRepository<Chat, Integer> {
-    public Chat findById(int chat_id);
+
+    Chat findById(int chat_id);
 
     @Query(value = "select * from chat where chat_type = :chat_type", nativeQuery = true)
     List<Chat> getChats(@Param("chat_type") String chat_type);

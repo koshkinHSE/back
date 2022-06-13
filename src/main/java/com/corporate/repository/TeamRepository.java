@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 public interface TeamRepository extends JpaRepository<Team, Integer> {
-    public Team findById(int team_id);
+    Team findById(int team_id);
 
     @Transactional
     @Modifying

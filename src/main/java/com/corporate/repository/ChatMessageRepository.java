@@ -11,8 +11,6 @@ import java.util.List;
 
 public interface ChatMessageRepository extends JpaRepository<Message, Integer> {
 
-    //long countByChatid(int chatid);
-
     @Query(value = "select * from message where chat_id = :chat_id", nativeQuery = true)
     List<Message> getMessages(@Param("chat_id") int chat_id);
 

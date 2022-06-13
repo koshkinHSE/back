@@ -30,9 +30,6 @@ public class ChatController {
     @Autowired
     private ChatIdDto chatIdDto;
 
-    @Autowired
-    private ShowChatsDto userIdDto;
-
     @PostMapping("create")
     public ResponseEntity createChat(HttpServletRequest request, @RequestBody CreateChatDto CreateChatDto) {
 

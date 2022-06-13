@@ -10,12 +10,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ChatMessageService {
     @Autowired private ChatMessageRepository repository;
-    @Autowired private ChatRoomService chatRoomService;
     @Autowired private UserRepository userRepository;
 
     public Message save(Message chatMessage, int ref) {
@@ -35,11 +33,5 @@ public class ChatMessageService {
         }
 
         return new FindChatMessagesDto(messages, users);
-    }
-
-    public Optional<Message> findById(int id) {
-        return repository.findById(id).map(chatMessage -> {
-            return repository.save(chatMessage);
-                });
     }
 }

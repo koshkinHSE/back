@@ -4,7 +4,6 @@ import com.corporate.dto.SendMessageDto;
 import com.corporate.model.Message;
 import com.corporate.repository.ChatRefRepository;
 import com.corporate.service.ChatMessageService;
-import com.corporate.service.ChatRoomService;
 import com.corporate.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
