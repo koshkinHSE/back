@@ -91,7 +91,9 @@ public class ChatController {
             return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.ok(new IdDto(channelId));
+        chatService.save_ref(new ChatRef(channelId));
+
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("showChannels")
