@@ -35,7 +35,7 @@ public class MessageController {
         String text = chatMessage.getText();
         if (text.indexOf("@when2meet") != -1){
             String ref = new String();
-            int start = text.indexOf("h", text.indexOf("@when2meet"));
+            int start = text.indexOf("h", text.indexOf("@when2meet")+7);
             ref = text.substring(start, text.indexOf(" ", start));
             chatRefRepository.updateW2M(ref, chatMessage.getChat_id());
         }
