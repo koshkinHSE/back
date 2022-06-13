@@ -41,7 +41,5 @@ public class ChatMessageService {
         return repository.findById(id).map(chatMessage -> {
             return repository.save(chatMessage);
                 });
-//                .orElseThrow(() ->
-//                        new ResourceNotFoundException("can't find message (" + id + ")"));
     }
 }
