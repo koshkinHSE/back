@@ -21,7 +21,6 @@ public class MessageController {
 
     @Autowired private SimpMessagingTemplate messagingTemplate;
     @Autowired private ChatMessageService chatMessageService;
-    @Autowired private ChatRoomService chatRoomService;
     @Autowired private ChatRefRepository chatRefRepository;
 
     @Autowired private UserService userService;
