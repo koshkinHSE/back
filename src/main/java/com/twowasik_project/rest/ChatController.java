@@ -131,4 +131,13 @@ public class ChatController {
 
         chatService.dePinedMessage(idDto.getId());
     }
+
+    @PostMapping("getMedia")
+    public ResponseEntity getMedia(HttpServletRequest request, @RequestBody RefDto RefDto) {
+        if (!jwtProvider.validateAccessToken(request.getHeader("Authorization"))) {
+            throw new InvalidTokenExceptions();
+        }
+        int chatId = RefDto.getId();
+        return ResponseEntity.ok(chatService.getRef(chatId));
+    }
 }

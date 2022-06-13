@@ -80,4 +80,9 @@ public class ChatServiceImpl implements ChatService{
     public void pinMessage(int id) {
         chatMessageRepository.pinMessage(id);
     }
+
+    @Override
+    public List<ChatRef> getRef(int id) {
+        return chatRefRepository.getRef(id);
+    }
 }
