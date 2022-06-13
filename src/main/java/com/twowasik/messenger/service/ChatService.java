@@ -2,7 +2,7 @@ package com.twowasik.messenger.service;
 
 import com.twowasik.messenger.dto.LastMessageDto;
 import com.twowasik.messenger.dto.ShowDto;
-import com.corporate.model.*;
+import com.twowasik.messenger.model.*;
 import com.twowasik.messenger.model.Chat;
 import com.twowasik.messenger.model.ChatRef;
 import com.twowasik.messenger.model.Message;
