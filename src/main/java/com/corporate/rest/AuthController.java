@@ -4,7 +4,6 @@ import com.corporate.dto.AuthenticationRequestDto;
 import com.corporate.dto.JwtDto;
 import com.corporate.dto.JwtRefreshDto;
 import com.corporate.dto.RegistrationRequestDto;
-
 import com.corporate.jwt.JWTProvider;
 import com.corporate.model.User;
 import com.corporate.service.UserService;
@@ -51,7 +50,7 @@ public class AuthController {
         String avatar = registrationRequestDto.getAvatar();
 
         if (userService.findByEmail(email) != null) {
-            return ResponseEntity.ok(false);
+            return ResponseEntity.notFound().build();
         }
 
         user = userService.saveUser(new User(email, password, name, avatar));
@@ -62,7 +61,7 @@ public class AuthController {
     }
 
     @PostMapping("token")
-    public ResponseEntity register(@RequestBody JwtRefreshDto jwtRefreshDto) {
+    public ResponseEntity token(@RequestBody JwtRefreshDto jwtRefreshDto) {
         if (!jwtProvider.validateRefreshToken(jwtRefreshDto.getRefreshToken())) {
             return ResponseEntity.notFound().build();
         }

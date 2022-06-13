@@ -11,8 +11,6 @@ import javax.persistence.*;
 @Component
 public class User {
 
-    private static int newId = 0;
-
     @Id
     @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
