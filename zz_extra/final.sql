@@ -42,9 +42,9 @@ CREATE TABLE message (
 
 CREATE TABLE chat_ref (
     ref_id serial PRIMARY KEY,
-  w2m character varying(200),
+    w2m character varying(200),
     git character varying(200),
-  meeting character varying(200),
+    meeting character varying(200),
     chat_id serial references chat(chat_id) NOT NULL
 );
 
