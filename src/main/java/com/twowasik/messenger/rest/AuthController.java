@@ -1,15 +1,15 @@
 package com.twowasik.messenger.rest;
 
-import com.twowasik.messenger.dto.AuthenticationRequestDto;
-import com.twowasik.messenger.dto.JwtDto;
-import com.twowasik.messenger.dto.JwtRefreshDto;
-import com.twowasik.messenger.dto.RegistrationRequestDto;
+import com.twowasik.messenger.dto.*;
+import com.twowasik.messenger.exceptions.InvalidTokenExceptions;
 import com.twowasik.messenger.jwt.JWTProvider;
 import com.twowasik.messenger.model.User;
 import com.twowasik.messenger.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 @CrossOrigin(origins = "http://localhost:3000/", maxAge = 3600)
 @RestController
