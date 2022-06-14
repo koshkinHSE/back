@@ -2,3 +2,4 @@
 /target/**
 !/target/*
 target/messenger-1.0-SNAPSHOT.jar.original
+.idea/.name
