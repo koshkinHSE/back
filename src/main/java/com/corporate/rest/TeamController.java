@@ -68,7 +68,7 @@ public class TeamController {
             throw new InvalidTokenExceptions();
         }
 
-        showDto.setId(userService.getTeams(jwtProvider.getAccessClaims(request.getHeader("Authorization")).getSubject()));
+        showDto.setId(userService.getTeams((int) jwtProvider.getAccessClaims(request.getHeader("Authorization")).get("id")));
         showDto.setName(teamService.showTeams(showDto.getId()));
 
         return ResponseEntity.ok(showDto);

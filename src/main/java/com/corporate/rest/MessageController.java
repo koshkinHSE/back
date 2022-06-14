@@ -1,6 +1,8 @@
 package com.corporate.rest;
 
 import com.corporate.dto.SendMessageDto;
+import com.corporate.exceptions.InvalidTokenExceptions;
+import com.corporate.jwt.JWTProvider;
 import com.corporate.model.Message;
 import com.corporate.repository.ChatRefRepository;
 import com.corporate.service.ChatMessageService;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import javax.servlet.http.HttpServletRequest;
+
 @CrossOrigin(origins = "http://localhost:3000/", maxAge = 3600)
 @Controller
 public class MessageController {
@@ -22,8 +26,8 @@ public class MessageController {
     @Autowired private SimpMessagingTemplate messagingTemplate;
     @Autowired private ChatMessageService chatMessageService;
     @Autowired private ChatRefRepository chatRefRepository;
-
     @Autowired private UserService userService;
+    @Autowired private JWTProvider jwtProvider;
 
     @MessageMapping("/chat")
     public void processMessage(@Payload Message chatMessage) {
@@ -53,7 +57,10 @@ public class MessageController {
     }
 
     @GetMapping("/messages/{chat_id}")
-    public ResponseEntity<?> findChatMessages (@PathVariable int chat_id) {
+    public ResponseEntity<?> findChatMessages (HttpServletRequest request, @PathVariable int chat_id) {
+        if (!jwtProvider.validateAccessToken(request.getHeader("Authorization"))) {
+            throw new InvalidTokenExceptions();
+        }
         return ResponseEntity.ok(chatMessageService.findChatMessages(chat_id));
     }
 }
