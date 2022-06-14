@@ -137,8 +137,13 @@ public class ChatController {
         chatService.dePinedMessage(idDto.getId());
     }
     @GetMapping("getUser")
-    public ResponseEntity getSelf(HttpServletRequest request){
-        User user = userService.findByUsername(jwtProvider.getAccessClaims(request.getHeader("Authorization")).getSubject());
+    public ResponseEntity getSelf(HttpServletRequest request) {
+
+        if (!jwtProvider.validateAccessToken(request.getHeader("Authorization"))) {
+            return ResponseEntity.badRequest().body("Unauthorized");
+        }
+
+        User user = userService.findById((int) jwtProvider.getAccessClaims(request.getHeader("Authorization")).get("id"));
         return ResponseEntity.ok(user);
     }
 

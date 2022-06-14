@@ -33,7 +33,7 @@ public class ChangeController {
             throw new InvalidTokenExceptions();
         }
 
-        User user = userRepository.findByUsername(jwtProvider.getAccessClaims(request.getHeader("Authorization")).getSubject());
+        User user = userRepository.findById((int) jwtProvider.getAccessClaims(request.getHeader("Authorization")).get("id"));
 
         String newPassword = changeUserDataDto.getNewPassword();
         String oldPassword = changeUserDataDto.getOldPassword();

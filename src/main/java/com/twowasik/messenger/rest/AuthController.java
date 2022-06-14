@@ -4,7 +4,6 @@ import com.twowasik.messenger.dto.AuthenticationRequestDto;
 import com.twowasik.messenger.dto.JwtDto;
 import com.twowasik.messenger.dto.JwtRefreshDto;
 import com.twowasik.messenger.dto.RegistrationRequestDto;
-
 import com.twowasik.messenger.jwt.JWTProvider;
 import com.twowasik.messenger.model.User;
 import com.twowasik.messenger.service.UserService;
@@ -52,7 +51,7 @@ public class AuthController {
         String avatar = registrationRequestDto.getAvatar();
 
         if (userService.findByEmail(email) != null) {
-            return ResponseEntity.ok(false);
+            return ResponseEntity.notFound().build();
         }
 
         user = userService.saveUser(new User(email, password, name, avatar));
@@ -63,7 +62,7 @@ public class AuthController {
     }
 
     @PostMapping("token")
-    public ResponseEntity register(@RequestBody JwtRefreshDto jwtRefreshDto) {
+    public ResponseEntity token(@RequestBody JwtRefreshDto jwtRefreshDto) {
         if (!jwtProvider.validateRefreshToken(jwtRefreshDto.getRefreshToken())) {
             return ResponseEntity.notFound().build();
         }

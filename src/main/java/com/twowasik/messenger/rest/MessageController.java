@@ -5,6 +5,8 @@ import com.twowasik.messenger.model.Message;
 import com.twowasik.messenger.repository.ChatRefRepository;
 import com.twowasik.messenger.service.ChatMessageService;
 import com.twowasik.messenger.service.UserService;
+import com.twowasik.messenger.exceptions.InvalidTokenExceptions;
+import com.twowasik.messenger.jwt.JWTProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import javax.servlet.http.HttpServletRequest;
+
 @CrossOrigin(origins = "http://localhost:3000/", maxAge = 3600)
 @Controller
 public class MessageController {
@@ -22,8 +26,8 @@ public class MessageController {
     @Autowired private SimpMessagingTemplate messagingTemplate;
     @Autowired private ChatMessageService chatMessageService;
     @Autowired private ChatRefRepository chatRefRepository;
-
     @Autowired private UserService userService;
+    @Autowired private JWTProvider jwtProvider;
 
     @MessageMapping("/chat")
     public void processMessage(@Payload Message chatMessage) {
@@ -53,7 +57,10 @@ public class MessageController {
     }
 
     @GetMapping("/messages/{chat_id}")
-    public ResponseEntity<?> findChatMessages (@PathVariable int chat_id) {
+    public ResponseEntity<?> findChatMessages (HttpServletRequest request, @PathVariable int chat_id) {
+        if (!jwtProvider.validateAccessToken(request.getHeader("Authorization"))) {
+            throw new InvalidTokenExceptions();
+        }
         return ResponseEntity.ok(chatMessageService.findChatMessages(chat_id));
     }
 }

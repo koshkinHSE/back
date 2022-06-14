@@ -17,7 +17,7 @@ public interface UserService {
 
     void addTeam(String teamId, String usersId);
 
-    List<Integer> getTeams(String name);
+    List<Integer> getTeams(int userId);
 
     void addChat(String teamId, String usersId);
 
