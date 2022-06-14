@@ -72,4 +72,19 @@ public class AuthController {
         jwtDto.setRefreshToken(jwtProvider.generateRefreshToken(user));
         return ResponseEntity.ok(jwtDto);
     }
+
+    //Лёша не смотри
+    /*@GetMapping("fake")
+    public ResponseEntity fake(HttpServletRequest request) {
+
+        int fake = 10;
+        return ResponseEntity.ok(fake);
+    }
+
+    @PatchMapping("fake2")
+    public ResponseEntity fake2(HttpServletRequest request) {
+
+        int fake = 10;
+        return ResponseEntity.ok(fake);
+    }*/
 }
